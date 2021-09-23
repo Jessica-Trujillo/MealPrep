@@ -1,3 +1,6 @@
+before_install:
+  - cd MealPrep
+
 name: foodplanapp
 description: A new Flutter project.
 
