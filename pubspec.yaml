@@ -1,6 +1,3 @@
-before_install:
-  - cd MealPrep
-
 name: foodplanapp
 description: A new Flutter project.
 
@@ -12,6 +9,10 @@ version: 1.0.0+1
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
+
+
+before_install:
+  - cd MealPrep
 
 
 dependencies:
