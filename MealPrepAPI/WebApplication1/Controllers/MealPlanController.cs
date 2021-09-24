@@ -32,7 +32,7 @@ namespace WebApplication1.Controllers
     public IngredientInstance[] ingredients { get; set; }
     public int calorieCounter { get; set; }
     public int costInPennies { get; set; }
-    public double carbPercent { get; set;}
+    public double carbPercent { get; set; }
     public double fatPercent { get; set; }
     public double proteinPercent { get; set; }
     public String[] tags { get; set; }
@@ -86,7 +86,6 @@ namespace WebApplication1.Controllers
   [Route("[controller]")]
   public class MealPlanController : ControllerBase
   {
-
     public MealPlanController()
     {
     }
