@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:foodplanapp/RootNavigationPage.dart';
 import 'package:http/http.dart' as http;
 
 void main() {
@@ -21,46 +22,46 @@ void main() {
   }
 }
 
-class Request
-{
-  Request({
-     required this.calorieGoal, 
-     required this.numOfDays, 
-     required this.weeklyBudget,
-     required this.carbPercentage, 
-     required this.fatPercentage,
-     required this.proteinPercentage, 
-     required this.dietaryRestrictions, 
-     required this.favorites, 
-     required this.blacklist, 
-     required this.recent
-});
-  int calorieGoal;
-  int numOfDays;
-  int weeklyBudget;
-  double carbPercentage;
-  double fatPercentage;
-  double proteinPercentage;
-  List<String> dietaryRestrictions;
-  List<String> favorites;
-  List<String> blacklist;
-  List<String> recent;
+  class Request
+  {
+    Request({
+      required this.calorieGoal, 
+      required this.numOfDays, 
+      required this.weeklyBudget,
+      required this.carbPercentage, 
+      required this.fatPercentage,
+      required this.proteinPercentage, 
+      required this.dietaryRestrictions, 
+      required this.favorites, 
+      required this.blacklist, 
+      required this.recent
+  });
+    int calorieGoal;
+    int numOfDays;
+    int weeklyBudget;
+    double carbPercentage;
+    double fatPercentage;
+    double proteinPercentage;
+    List<String> dietaryRestrictions;
+    List<String> favorites;
+    List<String> blacklist;
+    List<String> recent;
 
-  Map<String,dynamic> toMap(){
-    return {
-      "calorieGoal":calorieGoal,
-      "numOfDays":numOfDays,
-      "weeklyBudget":weeklyBudget,
-      "carbPercentage":carbPercentage,
-      "fatPercentage":fatPercentage,
-      "proteinPercentage":proteinPercentage,
-      "dietaryRestrictions":dietaryRestrictions,
-      "favorites":favorites,
-      "blacklist":blacklist,
-      "recent":recent
-    }; 
+    Map<String,dynamic> toMap(){
+      return {
+        "calorieGoal":calorieGoal,
+        "numOfDays":numOfDays,
+        "weeklyBudget":weeklyBudget,
+        "carbPercentage":carbPercentage,
+        "fatPercentage":fatPercentage,
+        "proteinPercentage":proteinPercentage,
+        "dietaryRestrictions":dietaryRestrictions,
+        "favorites":favorites,
+        "blacklist":blacklist,
+        "recent":recent
+      }; 
+    }
   }
-}
 
 
   class FullMealPlan
@@ -311,64 +312,10 @@ class Request
 
 class MyApp extends StatelessWidget {
 
-  TextEditingController controller = TextEditingController();
-
-  void testAPIClicked() async {
-    var request = Request(calorieGoal: 1700, 
-                          numOfDays: 10, 
-                          weeklyBudget: 500, 
-                          blacklist: ["C"], 
-                          carbPercentage: 30, 
-                          fatPercentage: 40, 
-                          proteinPercentage: 30, 
-                          dietaryRestrictions: ["B"], 
-                          favorites: ["A"],
-                          recent: ["D"]);
-
-
-    //var response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/albums/1'));
-    //https://localhost:44314/WeatherForecast
-    var asJson1 = jsonEncode(request.toMap());
-    var response = await http.post(Uri.parse('https://10.0.2.2:44314/MealPlan'),body: asJson1, headers: {"Content-Type": "application/json"} );
-
-    dynamic asJson = jsonDecode(response.body);
-    FullMealPlan mealPlan = FullMealPlan.fromMap(asJson);
-
-    controller.text = asJson.toString();
-  }
-
 
   @override
   Widget build(BuildContext context) {
-     
-    return MaterialApp(
-      title: 'Mobile Food APP API TEST',
-      home: Scaffold (
-        appBar: AppBar(
-          title: const Text('API TEST'),
-        ),
-        body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Container(margin: EdgeInsets.fromLTRB(0, 20, 0, 0), child: 
-            Container(width: 150, height: 40, child:
-              ElevatedButton(onPressed: testAPIClicked, child: Text("Test API", style: TextStyle(color: Colors.white, fontSize: 20),)),
-            )
-          ),
-          Expanded(child:
-            Container(margin: EdgeInsets.all(20), color: Colors.grey[200],
-              child: 
-                TextField(controller: controller, expands: true, minLines: null, maxLines: null, style: TextStyle(fontSize: 16, color: Colors.black), decoration: new InputDecoration(
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black),
-                  ),
-              ),)
-            )
-          ),
-        ],)
-      ),
-    );
+    return MaterialApp(home: RootNavigationPage());
   }
 }
 
