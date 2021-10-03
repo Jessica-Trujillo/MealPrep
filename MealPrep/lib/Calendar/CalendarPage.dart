@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:foodplanapp/Calendar/CalendarDay.dart';
 import 'package:foodplanapp/DataModel/TrackedDay.dart';
@@ -100,6 +101,13 @@ class _CalendarPageState extends State<CalendarPage>{
   
   @override 
   void initState() {
+    var testDoc = Map<String,dynamic>();
+    testDoc.addEntries([ MapEntry("SomeKey", "SomeValue")]);
+
+    var newDoc = FirebaseFirestore.instance
+    .collection('testCollection').doc();
+    newDoc.set({"A":"B"});
+
     for(int i =0; i < goodDays.length; i++){
       _calandarEvents.add(
         goodDays[i], 

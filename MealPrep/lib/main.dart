@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:foodplanapp/RootNavigationPage.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() {
   HttpOverrides.global = new MyHttpOverrides();
@@ -308,13 +310,47 @@ void main() {
     int? expirationTimeInDays;
   }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+
+  @override
+  State<StatefulWidget> createState() {
+    return MyAppState();
+  }
+}
+
+
+class MyAppState extends State<MyApp>{
+
+  bool isInitialized = false;
+
+  void initAsync() async {    
+    await Firebase.initializeApp();
+    setState(() {
+      isInitialized = true;
+    });
+  }
+
+  @override void initState(){
+    initAsync();
+    super.initState();
+  }
 
 
   @override
   Widget build(BuildContext context) {
+    if (!isInitialized){
+      return MaterialApp(home: 
+        Scaffold(
+          body: Container(alignment: Alignment.center, child: 
+            Text("Initializing..", style: TextStyle(fontSize: 20))
+          )
+        )
+      );
+    }
+
     return MaterialApp(home: RootNavigationPage());
   }
+
 }
 
 
