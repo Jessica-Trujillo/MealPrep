@@ -100,7 +100,7 @@ class _CalendarPageState extends State<CalendarPage>{
 
   
   @override 
-  void initState() {
+  void initState() { 
     var testDoc = Map<String,dynamic>();
     testDoc.addEntries([ MapEntry("SomeKey", "SomeValue")]);
 
