@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodplanapp/CalendarPage.dart';
+import 'package:foodplanapp/Calendar/CalendarPage.dart';
 import 'package:foodplanapp/MyColors.dart';
 
 class RootNavigationPage extends StatefulWidget{
@@ -40,10 +40,10 @@ class _RootNavigationPageState extends State<RootNavigationPage>{
     else{
       body = Container(child: Text("Error"));
     }
+    
     Color selectedIconColor = Colors.black;
-    Color selectedTextColor = Colors.black;
     Color iconColor = Colors.white;
-    Color textColor = Colors.white;
+    
 
     return Column(children: [
       Expanded(child: body),

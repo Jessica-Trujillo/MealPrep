@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "689199558668",
+    "project_id": "mealprepd-c7e74",
+    "storage_bucket": "mealprepd-c7e74.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:689199558668:android:657c452579cf359c27be29",
+        "android_client_info": {
+          "package_name": "com.example.foodplanapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "689199558668-rbl2di64ffdk6po0pb1csc6d6ceekgfp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRw9y7is4CXKM6kHSVqSQDFu7hFrBt1B4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "689199558668-rbl2di64ffdk6po0pb1csc6d6ceekgfp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

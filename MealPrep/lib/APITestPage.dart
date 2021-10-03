@@ -4,13 +4,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import 'main.dart';
-import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
 class APITestPage extends StatelessWidget {
 
-  TextEditingController controller = TextEditingController();
+  final TextEditingController controller = TextEditingController();
 
   void testAPIClicked() async {
     var request = Request(calorieGoal: 1700, 
@@ -31,7 +30,7 @@ class APITestPage extends StatelessWidget {
     var response = await http.post(Uri.parse('https://10.0.2.2:44314/MealPlan'),body: asJson1, headers: {"Content-Type": "application/json"} );
 
     dynamic asJson = jsonDecode(response.body);
-    FullMealPlan mealPlan = FullMealPlan.fromMap(asJson);
+   // FullMealPlan mealPlan = FullMealPlan.fromMap(asJson);
 
     controller.text = asJson.toString();
   }

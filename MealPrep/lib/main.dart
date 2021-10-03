@@ -1,10 +1,8 @@
 
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:foodplanapp/RootNavigationPage.dart';
-import 'package:http/http.dart' as http;
 
 void main() {
   HttpOverrides.global = new MyHttpOverrides();
@@ -78,7 +76,7 @@ void main() {
               meals.add(MealTime.fromMap(item));
             }
           }
-          mealPlan.Meals = meals;
+          mealPlan.meals = meals;
         }
         else if (entry.key == "ingredientsNeeded"){
           List<Ingredient> ingredients = [];
@@ -88,15 +86,15 @@ void main() {
               ingredients.add(Ingredient.fromMap(item));
             }
           }
-          mealPlan.IngredientsNeeded = ingredients;
+          mealPlan.ingredientsNeeded = ingredients;
         }
       }
 
       return mealPlan;
     }
 
-    List<MealTime>? Meals;
-    List<Ingredient>? IngredientsNeeded;
+    List<MealTime>? meals;
+    List<Ingredient>? ingredientsNeeded;
   }
 
   class MealTime
@@ -108,10 +106,10 @@ void main() {
           mealTime.meal = Meal.fromMap(entry.value);
         }
         if(entry.key == "hour") {
-          mealTime.Hour = int.parse(entry.value.toString());
+          mealTime.hour = int.parse(entry.value.toString());
         }
         if(entry.key == "minute"){
-          mealTime.Minute = int.parse(entry.value.toString());
+          mealTime.minute = int.parse(entry.value.toString());
         }
       }
       return mealTime;
@@ -119,8 +117,8 @@ void main() {
 
     Meal? meal;
     
-    int? Hour;
-    int? Minute;
+    int? hour;
+    int? minute;
   }
 
   class Meal
@@ -212,14 +210,14 @@ void main() {
           ing.ingredientId = int.parse(entry.value.toString());
         }
         else if (entry.key == "quantity"){
-          ing.Quantity = entry.value.toString();
+          ing.quantity = entry.value.toString();
         }
       }
 
       return ing;
     }
     int? ingredientId;
-    String? Quantity;
+    String? quantity;
   }
 
   class StoreIngredient
@@ -289,7 +287,7 @@ void main() {
           ing.tags = tags;
         }
         else if (entry.key == "expirationTimeInDays"){
-          ing.ExpirationTimeInDays = int.parse(entry.value.toString());
+          ing.expirationTimeInDays = int.parse(entry.value.toString());
         }
       }
 
@@ -307,7 +305,7 @@ void main() {
 
     List<String>? tags;
 
-    int? ExpirationTimeInDays;
+    int? expirationTimeInDays;
   }
 
 class MyApp extends StatelessWidget {
