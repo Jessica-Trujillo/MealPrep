@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:foodplanapp/CurrentSession.dart';
+import 'package:foodplanapp/DataModel/userProfile.dart';
 import 'package:foodplanapp/MyColors.dart';
 import 'package:foodplanapp/RootNavigationPage.dart';
 
@@ -41,10 +44,39 @@ class LoginPageState extends State<LoginPage>{
       isLoggingIn = true;
     });
     try {
+      var email = emailController.text.toLowerCase();
       UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text,
+        email: email,
         password: passwordController.text
       );
+
+      var collection = FirebaseFirestore.instance.collection('userProfiles');
+      var doc = await collection.doc(emailController.text.toLowerCase().replaceAll(".", "|")).get(); 
+      UserProfile userProfile;
+      var docData = doc.data();
+      if (doc.exists && docData != null) {
+        var username = docData["username"].toString();
+        userProfile = UserProfile(username, email);
+        userProfile.load(docData);
+      }
+      else {
+        userProfile = UserProfile("New User", email);
+        userProfile.save();
+      }
+      
+      CurrentSession.currentProfile = userProfile;
+
+
+      // test code
+
+      // userProfile.goodDays = [ DateTime.now(), DateTime.now().subtract(Duration(days: 1)) ];
+      // userProfile.badDays = [ DateTime.now().subtract(Duration(days: 5)) ];
+      // await userProfile.save();
+
+      // end test code
+
+
+
 
       Navigator.of(context).push(MaterialPageRoute(builder: (context){ return RootNavigationPage();}));
 
