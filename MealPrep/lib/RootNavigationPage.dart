@@ -26,21 +26,21 @@ class _RootNavigationPageState extends State<RootNavigationPage>{
     Widget body;
     
     if (_selectedIndex == 0){
-      body = Container(child: Text("Home Page"));
+      body = Scaffold(body: Container(alignment: Alignment.center, child: Text("Home Page")));
     } 
     else if (_selectedIndex == 1){
       body = CalendarPage();
     }
     else if (_selectedIndex == 2){
-      body = Container(child: Text("Recipes"));
+      body = Scaffold(body: Container(alignment: Alignment.center, child: Text("Recipes")));
     }
     else if (_selectedIndex == 3){
-      body = Container(child: Text("Settings"));
+      body = Scaffold(body: Container(alignment: Alignment.center, child: Text("Settings")));
     }
     else{
-      body = Container(child: Text("Error"));
+      body = Scaffold(body: Container(alignment: Alignment.center, child: Text("Error")));
     }
-    
+
     Color selectedIconColor = Colors.black;
     Color iconColor = Colors.white;
     

@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:foodplanapp/Calendar/CalendarDay.dart';
+import 'package:foodplanapp/CurrentSession.dart';
 import 'package:foodplanapp/DataModel/TrackedDay.dart';
 import 'package:foodplanapp/MyColors.dart';
 import 'dart:math';
@@ -18,126 +20,104 @@ class CalendarPage extends StatefulWidget{
 
 }
 
-List<DateTime> goodDays = [
-  DateTime(2021, 9, 1),
-  DateTime(2021, 9, 2),
-  DateTime(2021, 9, 3),
-  DateTime(2021, 9, 10),
-  DateTime(2021, 9, 11),
-  DateTime(2021, 9, 12),
-  DateTime(2021, 9, 13),
-  DateTime(2021, 9, 20),
-  DateTime(2021, 9, 21),
-];
-
-List<DateTime> badDays = [
-  DateTime(2021, 9, 4),
-  DateTime(2021, 9, 5),
-  DateTime(2021, 9, 6),
-  DateTime(2021, 9, 7),
-  DateTime(2021, 9, 8),
-  DateTime(2021, 9, 9),
-  DateTime(2021, 9, 14),
-  DateTime(2021, 9, 15),
-  DateTime(2021, 9, 16),
-];
-
-
 class _CalendarPageState extends State<CalendarPage>{
-
-  Widget buildGoodDayWidget(DateTime date) { 
-    
-    return GestureDetector(onTap: (){ 
-      var trackedDay = TrackedDay(date);
-      var page = CalendarDayPage(trackedDay: trackedDay);
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => page),
-      );
-    },
-      child: 
-      CircleAvatar(
-        backgroundColor: Colors.white,
-        child: 
-        Stack(children: [ 
-          Container(alignment: Alignment.topRight,
-            child: Icon(Icons.star, color: Colors.yellow[700], size: 12,)
-            ),
-          
-          
-          Center(
-          child: Text(
-            date.day.toString(),
-            style: TextStyle(
-              color: Colors.black,
-            ),
-          ),
-        )
-        ]),
-      )
-    );
-  }
-
-  Widget buildBadDayWidget(String day) => CircleAvatar(
-    backgroundColor: Colors.red,
-    child: Center(
-      child: Text(
-        day,
-        style: TextStyle(
-          color: Colors.black,
-        ),
-      ),
-    ),
-  );
-
-  var len = min(badDays.length, goodDays.length);
-  double calendarHeight = 0;
-
-  var _calandarEvents = new EventList<Event>(
-    events: {},
-  );
 
   
   @override 
-  void initState() {
-    for(int i =0; i < goodDays.length; i++){
-      _calandarEvents.add(
-        goodDays[i], 
-        new Event(
-          date: goodDays[i],
-          icon: buildGoodDayWidget(
-            goodDays[i]
-          ),
-        ),
-      );
-    }
+  void initState() { 
+    var testDoc = Map<String,dynamic>();
+    testDoc.addEntries([ MapEntry("SomeKey", "SomeValue")]);
 
-    for (int i = 0; i < badDays.length; i ++) {
-      _calandarEvents.add(
-        badDays[i],
-        new Event(
-          date: badDays[i],
-          icon: buildBadDayWidget(
-            badDays[i].day.toString(),
-          ),
-        ),
-      );
-    }
+    var newDoc = FirebaseFirestore.instance
+    .collection('testCollection').doc();
+    newDoc.set({"A":"B"});
+
+
+    
+    // for(int i =0; i < goodDays.length; i++){
+    //   _calandarEvents.add(
+    //     goodDays[i], 
+    //     new Event(
+    //       date: goodDays[i],
+    //       icon: buildGoodDayWidget(
+    //         goodDays[i]
+    //       ),
+    //     ),
+    //   );
+    // }
+
+    // for (int i = 0; i < badDays.length; i ++) {
+    //   _calandarEvents.add(
+    //     badDays[i],
+    //     new Event(
+    //       date: badDays[i],
+    //       icon: buildBadDayWidget(
+    //         badDays[i].day.toString(),
+    //       ),
+    //     ),
+    //   );
+    // }
 
     super.initState();
   }
 
+  Widget dayBuilder(bool bool1, int totalIndex, bool bool2, bool isCurrentDay, bool isPreviousMonth, TextStyle textStyle, bool isNextMonth, bool isCurrentMonth, DateTime date){
+    Color textColor = Colors.black;
+
+
+    if (isPreviousMonth || isNextMonth){
+      textColor = Colors.grey;
+    }
+
+    var currentDay = DateTime.now();
+
+    Color backgroundColor = Colors.transparent;
+    if (date.compareTo(currentDay) > 0){
+      backgroundColor = Colors.grey[300]!;
+    }
+    else{
+      if (CurrentSession.currentProfile.goodDays.any((element) => element.day == date.day && element.month == date.month)){
+        backgroundColor = Colors.blue[200]!;
+      }
+      else if (CurrentSession.currentProfile.badDays.any((element) => element.day == date.day && element.month == date.month)){
+        backgroundColor = Colors.red[200]!;
+      }
+    }
+
+
+    return GestureDetector(
+      onTap: (){
+        var page = CalendarDayPage(trackedDay: date);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => page),
+        ).then((value) => setState(() { }));
+       },
+      child: 
+      Container(
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          border:  Border.all(width: 1.0, color: Colors.grey),
+          borderRadius: BorderRadius.all(Radius.circular(4))
+        ),
+        child: Center(child: 
+          Text(date.day.toString(), style: TextStyle(color: textColor))
+        ),
+      )
+    );
+    
+  } 
+
   @override
   Widget build(BuildContext context) {
-    calendarHeight = MediaQuery.of(context).size.height;
-  
     CalendarCarousel _calendarCarouselNoHeader = CalendarCarousel<Event>(
-      height: calendarHeight * 0.54,
+     // height: calendarHeight * 0.54,
       weekendTextStyle: TextStyle(
         color: Colors.red,
       ),
-      todayButtonColor: Colors.blue[200]!,
-      markedDatesMap: _calandarEvents,
+      todayButtonColor: Colors.transparent,
+      //markedDatesMap: _calandarEvents,
+      customDayBuilder: dayBuilder,
       markedDateShowIcon: true,
       markedDateIconMaxShown: 1,
       markedDateMoreShowTotal: null,
@@ -150,28 +130,14 @@ class _CalendarPageState extends State<CalendarPage>{
       appBar: AppBar(backgroundColor: MyColors.accentColor,
         title: const Text('Calendar'),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        body: Column(
           children: <Widget>[
-            _calendarCarouselNoHeader,
-            markerRepresent(Colors.red, "Bad Day"),
-            markerRepresent(Colors.teal[300]!, "Good Day"),
+            Expanded(child: 
+              _calendarCarouselNoHeader,
+            ),
           ],
         ),
-      ),
+      
     );
   }
-
-  Widget markerRepresent(Color color, String data) {
-    return new ListTile(
-      leading: new CircleAvatar(
-        backgroundColor: color,
-        radius: calendarHeight * .022,
-        ),
-        title: new Text(
-          data,
-          ),
-        );
-    }
   }
