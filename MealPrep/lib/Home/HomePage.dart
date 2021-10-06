@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:foodplanapp/MyColors.dart';
 import 'package:calendar_timeline/calendar_timeline.dart';
+import 'package:foodplanapp/Calendar/CalendarDay.dart';
+import 'package:foodplanapp/DataModel/TrackedDay.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -24,6 +26,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime date;
+
     CalendarTimeline _calendarTimeline = CalendarTimeline(
       showYears: true,
       initialDate: _selectedDate,
@@ -31,7 +35,11 @@ class _HomePageState extends State<HomePage> {
       lastDate: DateTime.now().add(Duration(days: 365)),
       onDateSelected: (date) {
         setState(() {
-          _selectedDate = date!;
+          var page = CalendarDayPage(trackedDay: date!);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => page),
+          ).then((value) => setState(() {}));
         });
       },
       leftMargin: 20,
