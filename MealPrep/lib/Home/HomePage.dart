@@ -40,15 +40,16 @@ class _HomePageState extends State<HomePage> {
             context,
             MaterialPageRoute(builder: (context) => page),
           ).then((value) => setState(() {}));
+          _selectedDate = date;
         });
       },
       leftMargin: 20,
       monthColor: Colors.black,
       dayColor: Colors.grey,
-      dayNameColor: Color(0xFF333A47),
+      dayNameColor: Colors.white,
       activeDayColor: Colors.white,
       activeBackgroundDayColor: MyColors.accentColor,
-      dotsColor: Color(0xFF333A47),
+      dotsColor: Colors.white,
       selectableDayPredicate: (date) => date.day != 23,
       locale: 'en',
     );
@@ -62,7 +63,10 @@ class _HomePageState extends State<HomePage> {
         children: <Widget>[
           Text('Weekly Overview'),
           _calendarTimeline,
-          Text('Meals for Today')
+          Text('Meals for Today'),
+          Text('Breakfast'),
+          Text('Lunch'),
+          Text('Dinner')
         ],
       ),
     );
