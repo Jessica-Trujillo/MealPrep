@@ -2,14 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:foodplanapp/Calendar/CalendarDay.dart';
 import 'package:foodplanapp/CurrentSession.dart';
-import 'package:foodplanapp/DataModel/TrackedDay.dart';
 import 'package:foodplanapp/MyColors.dart';
-import 'dart:math';
-
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
     show CalendarCarousel;
 import 'package:flutter_calendar_carousel/classes/event.dart';
-import 'package:flutter_calendar_carousel/classes/event_list.dart';
 
 class CalendarPage extends StatefulWidget{
 
