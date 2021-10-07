@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _resetSelectedDate() {
-    _selectedDate = DateTime.now().add(Duration(days: 5));
+    _selectedDate = DateTime.now();
   }
 
   @override
@@ -50,7 +50,6 @@ class _HomePageState extends State<HomePage> {
       activeDayColor: Colors.white,
       activeBackgroundDayColor: MyColors.accentColor,
       dotsColor: Colors.white,
-      selectableDayPredicate: (date) => date.day != 23,
       locale: 'en',
     );
 
