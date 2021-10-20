@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserProfile {
  
+  bool finsihedRegistration;
+
   String username;
   String email;
   String? gender;
@@ -11,6 +13,9 @@ class UserProfile {
   int? currentWeight;
   int? calorieIntake;
   DateTime? birthday;
+  String? weightGoal;
+
+  int? heightInInches;
 
   List<String>? dietaryRestrictions;
 
@@ -21,7 +26,7 @@ class UserProfile {
   List<String> blacklistMeals = [];
 
 
-  UserProfile(this.username, this.email);
+  UserProfile(this.username, this.email, this.finsihedRegistration);
 
   void load(Map<String,dynamic> data) {
     for (var entry in data.entries) {
@@ -32,6 +37,9 @@ class UserProfile {
         case "gender":
           gender = entry.value as String?;
           break;
+        case "heightInInches":
+          heightInInches = int.tryParse(entry.value.toString());
+          break;
         case "targetWeight":
           targetWeight = int.tryParse(entry.value.toString());
           break;
@@ -41,8 +49,14 @@ class UserProfile {
         case "calorieIntake":
           calorieIntake = int.tryParse(entry.value.toString());
           break;
+        case "weightGoal" :
+          weightGoal = entry.value as String?;
+          break;
         case "birthday":
           birthday = DateTime.tryParse(entry.value.toString());
+          break;
+        case "finsihedRegistration":
+          finsihedRegistration = entry.value as bool;
           break;
         case "goodDays":
           var dynList = entry.value as List<dynamic>?;
@@ -97,7 +111,10 @@ class UserProfile {
       "goodDays" : goodDays,
       "badDays" : badDays,
       "favoriteMeals" : favoriteMeals,
-      "blacklistMeals" : blacklistMeals
+      "blacklistMeals" : blacklistMeals,
+      "finsihedRegistration" : finsihedRegistration,
+      "heightInInches" : heightInInches,
+      "weightGoal" : weightGoal,
     };
 
     await doc.set(documentData);

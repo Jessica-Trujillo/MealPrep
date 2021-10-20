@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foodplanapp/CurrentSession.dart';
 import 'package:foodplanapp/DataModel/userProfile.dart';
+import 'package:foodplanapp/LoginRegistration/RegistrationPage.dart';
+import 'package:foodplanapp/LoginRegistration/UserStats.dart';
 import 'package:foodplanapp/MyColors.dart';
 import 'package:foodplanapp/RootNavigationPage.dart';
 
@@ -39,12 +41,63 @@ class LoginPageState extends State<LoginPage>{
   bool isLoggingIn = false;
   String? error;
 
+  void showPopup(){
+    var controller = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Reset Password'),
+        content: new Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text("Enter Email To Reset Password"),
+            TextField(controller: controller)
+          ],
+        ),
+        actions: <Widget>[
+          new ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.grey[600]!),
+            ),
+            child: const Text('Close'),
+          ),
+          new ElevatedButton(
+            onPressed: () async {
+              var textFromTextbox = controller.text;
+              try{
+                await FirebaseAuth.instance.sendPasswordResetEmail(email: textFromTextbox);
+              }
+              catch(e){
+                Common.showMessage(context, "Error", "Email does not exist");
+                return;
+              }
+              Navigator.of(context).pop();
+              Common.showMessage(context, "Success", "Email has been sent to " + textFromTextbox);
+            },
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+            ),
+            child: const Text('Send'),
+          ),
+          
+        ],
+      )
+    );
+  }
+
   void loginClicked() async {
     setState(() {
       isLoggingIn = true;
     });
     try {
       var email = emailController.text.toLowerCase();
+
+      //FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password)
+
       UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: passwordController.text
@@ -56,29 +109,29 @@ class LoginPageState extends State<LoginPage>{
       var docData = doc.data();
       if (doc.exists && docData != null) {
         var username = docData["username"].toString();
-        userProfile = UserProfile(username, email);
+
+        bool finsihedRegistration;
+        try{
+          finsihedRegistration = docData["finsihedRegistration"] as bool;
+        }catch(e){
+          finsihedRegistration = false;
+        }
+
+        userProfile = UserProfile(username, email, finsihedRegistration);
         userProfile.load(docData);
       }
       else {
-        userProfile = UserProfile("New User", email);
+        userProfile = UserProfile("New User", email, false);
         userProfile.save();
       }
       
       CurrentSession.currentProfile = userProfile;
-
-
-      // test code
-
-      // userProfile.goodDays = [ DateTime.now(), DateTime.now().subtract(Duration(days: 1)) ];
-      // userProfile.badDays = [ DateTime.now().subtract(Duration(days: 5)) ];
-      // await userProfile.save();
-
-      // end test code
-
-
-
-
-      Navigator.of(context).push(MaterialPageRoute(builder: (context){ return RootNavigationPage();}));
+      if (userProfile.finsihedRegistration) {
+        Navigator.of(context).push(MaterialPageRoute(builder: (context){ return RootNavigationPage();}));
+      }
+      else {
+        Navigator.of(context).push(MaterialPageRoute(builder: (context){ return UserStats();}));
+      }
 
     } 
     on FirebaseAuthException catch (e) {
@@ -95,6 +148,14 @@ class LoginPageState extends State<LoginPage>{
     setState(() {
       isLoggingIn = false;
     });
+  }
+
+  void forgotPasswordClicked() {
+    showPopup();
+  }
+
+  void onRegistrationClicked() {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context){ return RegistrationPage();}));
   }
 
   @override
@@ -141,12 +202,12 @@ class LoginPageState extends State<LoginPage>{
 
 
     return Scaffold(
-      backgroundColor: Colors.orange[50],
+      backgroundColor: Colors.blue[800],
       body: 
       Stack(
         fit: StackFit.expand,
         children: [
-        Container(color: Colors.red, child: 
+        Container(child: 
           FittedBox(
             fit: BoxFit.cover,
             child: Image.asset("images/backgroundImage.png"),
@@ -181,6 +242,26 @@ class LoginPageState extends State<LoginPage>{
               decoration: textFieldDecoration
             ),
           ),
+
+          Container(margin: EdgeInsets.fromLTRB(10, 0, 10, 0), alignment: Alignment.bottomRight, height: 35, child: 
+            TextButton(
+                onPressed: forgotPasswordClicked,
+                child:
+                Stack(children: [
+                  Text('Forgot Password', style: TextStyle(fontSize: 15,// color: Colors.white,
+                    foreground: Paint()
+                      ..style = PaintingStyle.stroke
+                      ..strokeWidth = 3
+                      ..color = Colors.black,
+                    )
+                    ),
+                  Text('Forgot Password', style: TextStyle(fontSize: 15, color: Colors.blue[300],
+                  ))
+                ])
+                )
+            ),
+          
+
           Container(height: 20),
           Container(width: 150, height: 45,
             child: 
@@ -193,6 +274,28 @@ class LoginPageState extends State<LoginPage>{
               child: Text("Log in", style: TextStyle(fontSize: 16, color: Colors.black))
             )
           ),
+          Container( margin: EdgeInsets.all(10),
+            child: Stack(children: [
+              Text('or', style: TextStyle(fontSize: 15,// color: Colors.white,
+                foreground: Paint()
+                  ..style = PaintingStyle.stroke
+                  ..strokeWidth = 3
+                  ..color = Colors.grey[700]!,
+                )
+                ),
+              Text('or', style: TextStyle(fontSize: 15, color: Colors.white,
+              ))
+            ])),
+          Container(width: 150, height: 45, 
+          child: 
+            ElevatedButton(onPressed: onRegistrationClicked,
+             style: ElevatedButton.styleFrom(
+               primary: Colors.amber[100], 
+             ),
+             child: Text('Register', style: TextStyle(fontSize: 16, color: Colors.black))
+            ),
+          ),
+
           Container(height: 10),
           errorWidget,
         ],),
