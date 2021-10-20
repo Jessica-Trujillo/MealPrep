@@ -21,7 +21,48 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _resetSelectedDate() {
-    _selectedDate = DateTime.now().add(Duration(days: 5));
+    _selectedDate = DateTime.now();
+  }
+
+  Widget buildCard(String title, String calories, String mealTitle,
+      String ingredient1, String ingredient2) {
+    return Container(
+      margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
+      color: MyColors.accentColor,
+      child: Container(
+          child: Row(children: [
+        Container(
+            height: 125,
+            width: 125,
+            child: FittedBox(
+              fit: BoxFit.cover,
+              clipBehavior: Clip.hardEdge,
+              child: Image.asset("images/backgroundImage.png"),
+            )),
+        Container(
+            margin: EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                FittedBox(
+                    child: Text(title,
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white))),
+                FittedBox(
+                    child: Text(calories + " Calories",
+                        style: TextStyle(fontSize: 16, color: Colors.white))),
+                FittedBox(
+                    child: Text(mealTitle,
+                        style: TextStyle(fontSize: 16, color: Colors.white))),
+                Divider(color: Colors.black, thickness: 3),
+                Text(ingredient1, style: TextStyle(color: Colors.white)),
+                Text(ingredient2, style: TextStyle(color: Colors.white))
+              ],
+            ))
+      ])),
+    );
   }
 
   @override
@@ -29,7 +70,7 @@ class _HomePageState extends State<HomePage> {
     DateTime date;
 
     CalendarTimeline _calendarTimeline = CalendarTimeline(
-      showYears: true,
+      showYears: false,
       initialDate: _selectedDate,
       firstDate: DateTime.now(),
       lastDate: DateTime.now().add(Duration(days: 365)),
@@ -44,13 +85,12 @@ class _HomePageState extends State<HomePage> {
         });
       },
       leftMargin: 20,
-      monthColor: Colors.black,
+      monthColor: Color(0xff333333),
       dayColor: Colors.grey,
       dayNameColor: Colors.white,
       activeDayColor: Colors.white,
       activeBackgroundDayColor: MyColors.accentColor,
       dotsColor: Colors.white,
-      selectableDayPredicate: (date) => date.day != 23,
       locale: 'en',
     );
 
@@ -60,13 +100,30 @@ class _HomePageState extends State<HomePage> {
         title: const Text('Home'),
       ),
       body: Column(
-        children: <Widget>[
-          Text('Weekly Overview'),
+        children: [
+          Container(
+              margin: EdgeInsets.only(top: 20),
+              child: Text('Weekly Overview',
+                  style: TextStyle(
+                      color: Color(0xff333333),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold))),
           _calendarTimeline,
-          Text('Meals for Today'),
-          Text('Breakfast'),
-          Text('Lunch'),
-          Text('Dinner')
+          Container(
+              margin: EdgeInsets.only(top: 20),
+              child: Text('Meals for Today',
+                  style: TextStyle(
+                      color: Color(0xff333333),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold))),
+          Expanded(
+              child: Column(children: [
+            buildCard("Breakfast", "422", "Frosted Flakes", "1 cup whole milk",
+                "1 cup frosted flakes"),
+            buildCard(
+                "Lunch", "360", "Sandwich", "2 slices bread", "1 cup cheese"),
+            buildCard("Dinner", "500", "Steaks", "1 cup steak", "5 lb potato"),
+          ]))
         ],
       ),
     );
