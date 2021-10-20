@@ -1,6 +1,5 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:foodplanapp/Calendar/CalendarPage.dart';
 
 class UserProfile {
  
