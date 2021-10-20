@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodplanapp/Calendar/CalendarPage.dart';
 import 'package:foodplanapp/Home/HomePage.dart';
+import 'package:foodplanapp/Recipes/RecipesPage.dart';
 import 'package:foodplanapp/MyColors.dart';
 
 class RootNavigationPage extends StatefulWidget {
@@ -28,8 +29,7 @@ class _RootNavigationPageState extends State<RootNavigationPage> {
     } else if (_selectedIndex == 1) {
       body = CalendarPage();
     } else if (_selectedIndex == 2) {
-      body = Scaffold(
-          body: Container(alignment: Alignment.center, child: Text("Recipes")));
+      body = RecipesPage();
     } else if (_selectedIndex == 3) {
       body = Scaffold(
           body:
