@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foodplanapp/CurrentSession.dart';
 import 'package:foodplanapp/LoginRegistration/WeightGoalPage.dart';
-import 'package:foodplanapp/main.dart';
 import 'package:intl/intl.dart';
 
 import '../MyColors.dart';

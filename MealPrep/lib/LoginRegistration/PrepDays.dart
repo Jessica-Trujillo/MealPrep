@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:foodplanapp/CurrentSession.dart';
 import 'package:foodplanapp/Home/HomePage.dart';
 import 'package:foodplanapp/MyColors.dart';
+import 'package:foodplanapp/RootNavigationPage.dart';
 
 class PrepDays extends StatefulWidget{
   @override
@@ -23,7 +24,7 @@ String? days;
       //CurrentSession.currentProfile.prepDays;
       CurrentSession.currentProfile.save();
 
-    Navigator.of(context).push(MaterialPageRoute(builder: (context){ return HomePage();}));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context){ return RootNavigationPage();}));
   }
 
     List<Widget> responseWidget =[
