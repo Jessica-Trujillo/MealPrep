@@ -17,6 +17,7 @@ class CalendarDayPage extends StatefulWidget{
 
 
 class _CalendarDayPageState extends State<CalendarDayPage>{
+
   void toggleGoodDay(){
     setState(() {
       var profile = CurrentSession.currentProfile;

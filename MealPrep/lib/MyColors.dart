@@ -16,3 +16,34 @@ class MyStyles {
     ),
   );
 }
+
+
+class Common{
+
+  
+
+  static void showMessage(BuildContext context, String title, String message){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: Text(title),
+        content: new Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(message),
+          ],
+        ),
+        actions: <Widget>[
+          new ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Close'),
+          ),
+        ],
+      )
+    );
+  }
+
+}

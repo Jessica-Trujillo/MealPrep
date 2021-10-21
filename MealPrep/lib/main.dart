@@ -2,7 +2,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:foodplanapp/LoginPage.dart';
+import 'package:foodplanapp/LoginRegistration/LoginPage.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() {
