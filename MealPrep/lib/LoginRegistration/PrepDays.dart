@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:foodplanapp/Controls/MultiPicker.dart';
 import 'package:foodplanapp/CurrentSession.dart';
-import 'package:foodplanapp/Home/HomePage.dart';
 import 'package:foodplanapp/MyColors.dart';
 import 'package:foodplanapp/RootNavigationPage.dart';
 
@@ -12,6 +12,15 @@ class PrepDays extends StatefulWidget{
 }
 
 class _PrepDays extends State<PrepDays>{
+  late MultiPickerController prepDaysController;
+
+  
+void initState() {
+    prepDaysController = MultiPickerController();
+
+    super.initState();
+  }
+
 
 String? scheduleMeals;
 String? days;
@@ -21,7 +30,6 @@ String? days;
  
     void nextClicked(){
       CurrentSession.currentProfile.finsihedRegistration = true;
-      //CurrentSession.currentProfile.prepDays;
       CurrentSession.currentProfile.save();
 
     Navigator.of(context).push(MaterialPageRoute(builder: (context){ return RootNavigationPage();}));
@@ -64,77 +72,7 @@ String? days;
         Text("Which days would you like to prep?", style: TextStyle(fontSize: 20, color: Colors.black,), textAlign: TextAlign.center,),
         Container(height: 20),
 
-        Container(height: 50, child: 
-          ListTile(
-            title: const Text('Mon'),
-            leading: Radio<String>(value: "M", toggleable: true, activeColor: Colors.blue, groupValue: days, onChanged: (newValue){ 
-              setState(() {
-                days = newValue;
-              }); 
-            },),
-          ),
-        ),
-        Container(height: 50, child: 
-          ListTile(
-            title: const Text('Tues'),
-            leading: Radio<String>(value: "T", toggleable: true, activeColor: Colors.blue, groupValue: days, onChanged: (newValue){ 
-              setState(() {
-                days = newValue;
-              }); 
-            },),
-          ),
-        ),
-        Container(height: 50, child: 
-          ListTile(
-            title: const Text('Wed'),
-            leading: Radio<String>(value: "W", toggleable: true, activeColor: Colors.blue, groupValue: days, onChanged: (newValue){ 
-              setState(() {
-                days = newValue;
-              }); 
-            },),
-          ),
-        ),
-        Container(height: 50, child: 
-          ListTile(
-            title: const Text('Thurs'),
-            leading: Radio<String>(value: "R", toggleable: true, activeColor: Colors.blue, groupValue: days, onChanged: (newValue){ 
-              setState(() {
-                days = newValue;
-              }); 
-            },),
-          ),
-        ),
-        Container(height: 50, child: 
-          ListTile(
-            title: const Text('Fri'),
-            leading: Radio<String>(value: "F", toggleable: true, activeColor: Colors.blue, groupValue: days, onChanged: (newValue){ 
-              setState(() {
-                days = newValue;
-              }); 
-            },),
-          ),
-        ),
-        Container(height: 50, child: 
-          ListTile(
-            title: const Text('Sat'),
-            leading: Radio<String>(value: "Sa", toggleable: true, activeColor: Colors.blue, groupValue: days, onChanged: (newValue){ 
-              setState(() {
-                days = newValue;
-              }); 
-            },),
-          ),
-        ),
-        Container(height: 50, child: 
-          ListTile(
-            title: const Text('Sun'),
-            leading: Radio<String>(value: "Su", toggleable: true, activeColor: Colors.blue, groupValue: days, onChanged: (newValue){ 
-              setState(() {
-                days = newValue;
-              }); 
-            },),
-          ),
-        ),
-        
+        MultiPicker(options: ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"], controller: prepDaysController, ),
       ],));
     }
 

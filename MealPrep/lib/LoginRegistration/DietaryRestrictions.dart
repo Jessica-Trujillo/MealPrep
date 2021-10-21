@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:foodplanapp/Controls/MultiPicker.dart';
 import 'package:foodplanapp/CurrentSession.dart';
 import 'package:foodplanapp/LoginRegistration/PrepDays.dart';
 
@@ -14,11 +15,19 @@ class DietaryRestrictions extends StatefulWidget{
 }
 
 class _DietaryRestrictions extends State<DietaryRestrictions>{
+  late MultiPickerController restrictionsController;
 
-String? restriction;
-String? restrictionList;
+  @override
+  void initState(){
+    restrictionsController = MultiPickerController();
 
-void nextClicked(){
+    super.initState();
+  }
+
+  String? restriction;
+  String? restrictionList;
+
+  void nextClicked(){
     CurrentSession.currentProfile.dietaryRestrictions;
     CurrentSession.currentProfile.save();
 
@@ -66,91 +75,21 @@ void nextClicked(){
       responseWidget.add(Container(height: 20));
       responseWidget.add(Text("What restrictions do you have (Choose all that apply): "));
 
-      responseWidget.add(Column(children: [
-        Container(height: 50, child: 
-          ListTile(
-            title: const Text('Gluten-Free'),
-            leading: Radio<String>(value: "Gluten", toggleable: true, activeColor: Colors.blue, groupValue: restrictionList, onChanged: (newValue){ 
-              setState(() {
-                restrictionList = newValue;
-              }); 
-            },),
-          ),
-        ),
-        Container(height: 50, child: 
-          ListTile(
-            title: const Text('Vegan'),
-            leading: Radio<String>(value: "Vegan", toggleable: true, activeColor: Colors.blue, groupValue: restrictionList, onChanged: (newValue){ 
-              setState(() {
-                restrictionList = newValue;
-              }); 
-            },),
-          ),
-        ),
-        Container(height: 50, child: 
-          ListTile(
-            title: const Text('Vegetarian'),
-            leading: Radio<String>(value: "Vegitarian", toggleable: true, activeColor: Colors.blue, groupValue: restrictionList, onChanged: (newValue){ 
-              setState(() {
-                restrictionList = newValue;
-              }); 
-            },),
-          ),
-        ),
-         Container(height: 50, child: 
-          ListTile(
-            title: const Text('Keto'),
-            leading: Radio<String>(value: "Keto", toggleable: true, activeColor: Colors.blue, groupValue: restrictionList, onChanged: (newValue){ 
-              setState(() {
-                restrictionList = newValue;
-              }); 
-            },),
-          ),
-        ),
-        Container(height: 50, child: 
-          ListTile(
-            title: const Text('Lactose Intolerant'),
-            leading: Radio<String>(value: "Lactose", toggleable: true, activeColor: Colors.blue, groupValue: restrictionList, onChanged: (newValue){ 
-              setState(() {
-                restrictionList = newValue;
-              }); 
-            },),
-          ),
-        ),
-        Container(height: 50, child: 
-          ListTile(
-            title: const Text('Nut Allergy'),
-            leading: Radio<String>(value: "Nuts", toggleable: true, activeColor: Colors.blue, groupValue: restrictionList, onChanged: (newValue){ 
-              setState(() {
-                restrictionList = newValue;
-              }); 
-            },),
-          ),
-        ),
-        Container(height: 50, child: 
-          ListTile(
-            title: const Text('Pescatarian'),
-            leading: Radio<String>(value: "Pesc", toggleable: true, activeColor: Colors.blue, groupValue: restrictionList, onChanged: (newValue){ 
-              setState(() {
-                restrictionList = newValue;
-              }); 
-            },),
-          ),
-        ),
-         Container(height: 50, child: 
-          ListTile(
-            title: const Text('Paleo'),
-            leading: Radio<String>(value: "Paleo", toggleable: true, activeColor: Colors.blue, groupValue: restrictionList, onChanged: (newValue){ 
-              setState(() {
-                restrictionList = newValue;
-              }); 
-            },),
-          ),
-        ),
-
-      ],));
+      responseWidget.add(
+        MultiPicker(controller: restrictionsController, options: [
+          "Gluten-Free", 
+          "Vegan",
+          "Vegetarian",
+          "Keto", 
+          "Lactose Intolerant", 
+          "Nut Allergy", 
+          "Pescatarian", 
+          "Paleo"],
+          itemWidth: 200,
+        )
+      );
     }
-
+    
     responseWidget.add(Container(margin: EdgeInsets.fromLTRB(0, 40, 0, 20), width: 150, height: 45, 
         child: ElevatedButton(onPressed: nextClicked,
           style: ElevatedButton.styleFrom(
