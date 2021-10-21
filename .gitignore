@@ -1,1 +1,5 @@
 .vscode/launch.json
+MealPrep/.flutter-plugins
+MealPrep/.flutter-plugins-dependencies
+MealPrep/ios/Flutter/Debug.xcconfig
+MealPrep/ios/Flutter/Release.xcconfig
