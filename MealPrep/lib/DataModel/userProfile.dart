@@ -14,10 +14,12 @@ class UserProfile {
   int? calorieIntake;
   DateTime? birthday;
   String? weightGoal;
+  String? weightGoalRate;
 
   int? heightInInches;
 
   List<String>? dietaryRestrictions;
+  List<String>? prepDays;
 
   List<DateTime> goodDays = [];
   List<DateTime> badDays = [];
@@ -27,6 +29,18 @@ class UserProfile {
 
 
   UserProfile(this.username, this.email, this.finsihedRegistration);
+
+  List<String> readList(MapEntry<String, dynamic> entry){
+    var dynList = entry.value as List<dynamic>?;
+    List<String> newList = [];
+    if (dynList != null){
+      for (var item in dynList){
+        newList.add(item.toString());
+      }
+    }
+
+    return newList;
+  }
 
   void load(Map<String,dynamic> data) {
     for (var entry in data.entries) {
@@ -52,11 +66,20 @@ class UserProfile {
         case "weightGoal" :
           weightGoal = entry.value as String?;
           break;
+        case "weightGoalRate" :
+          weightGoalRate = entry.value as String?;
+          break;
         case "birthday":
           birthday = DateTime.tryParse(entry.value.toString());
           break;
         case "finsihedRegistration":
           finsihedRegistration = entry.value as bool;
+          break;
+        case "dietaryRestrictions":
+          dietaryRestrictions = readList(entry);
+          break;
+        case "prepDays":
+          prepDays = readList(entry);
           break;
         case "goodDays":
           var dynList = entry.value as List<dynamic>?;
@@ -108,6 +131,7 @@ class UserProfile {
       "calorieIntake" : calorieIntake,
       "birthday" : birthday,
       "dietaryRestrictions" : dietaryRestrictions,
+      "prepDays" : prepDays,
       "goodDays" : goodDays,
       "badDays" : badDays,
       "favoriteMeals" : favoriteMeals,
@@ -115,6 +139,7 @@ class UserProfile {
       "finsihedRegistration" : finsihedRegistration,
       "heightInInches" : heightInInches,
       "weightGoal" : weightGoal,
+      "weightGoalRate" : weightGoalRate,
     };
 
     await doc.set(documentData);

@@ -28,7 +28,7 @@ class _DietaryRestrictions extends State<DietaryRestrictions>{
   String? restrictionList;
 
   void nextClicked(){
-    CurrentSession.currentProfile.dietaryRestrictions;
+    CurrentSession.currentProfile.dietaryRestrictions = restrictionsController.currentOptions;
     CurrentSession.currentProfile.save();
 
     Navigator.of(context).push(MaterialPageRoute(builder: (context){ return PrepDays();}));
@@ -89,7 +89,7 @@ class _DietaryRestrictions extends State<DietaryRestrictions>{
         )
       );
     }
-    
+
     responseWidget.add(Container(margin: EdgeInsets.fromLTRB(0, 40, 0, 20), width: 150, height: 45, 
         child: ElevatedButton(onPressed: nextClicked,
           style: ElevatedButton.styleFrom(

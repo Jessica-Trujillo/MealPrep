@@ -16,7 +16,7 @@ class _WeightGoal extends State<WeightGoal>{
 
   String? weightGoal;
 
-  String? loseTarget;
+  String? weightGoalRate;
 
   @override
   void initState() {        
@@ -40,6 +40,7 @@ class _WeightGoal extends State<WeightGoal>{
   void nextClicked(){
 
     CurrentSession.currentProfile.weightGoal = weightGoal;
+    CurrentSession.currentProfile.weightGoalRate = weightGoalRate;
     CurrentSession.currentProfile.save();
 
     Navigator.of(context).push(MaterialPageRoute(builder: (context){ return DietaryRestrictions(); }));
@@ -95,20 +96,20 @@ class _WeightGoal extends State<WeightGoal>{
       columnWidgets.add(Container(height: 20));
       columnWidgets.add(Text("How much would you like to lose a week?", style: TextStyle(fontSize: 20),));
     }
+
     if (weightGoal == "Gain"){
       columnWidgets.add(Container(height: 20));
       columnWidgets.add(Text("How much would you like to gain a week?", style: TextStyle(fontSize: 20),));
     }
-
-
+    
     if (weightGoal == "Lose" || weightGoal == "Gain") {
       columnWidgets.add(Column(children: [
         Container(height: 50, child: 
           ListTile(
             title: const Text('1/2 lb a week'),
-            leading: Radio<String>(value: "slow", toggleable: true, activeColor: Colors.blue, groupValue: loseTarget, onChanged: (newValue){ 
+            leading: Radio<String>(value: "slow", toggleable: true, activeColor: Colors.blue, groupValue: weightGoalRate, onChanged: (newValue){ 
               setState(() {
-                loseTarget = newValue;
+                weightGoalRate = newValue;
               }); 
             },),
           ),
@@ -116,9 +117,9 @@ class _WeightGoal extends State<WeightGoal>{
         Container(height: 50, child: 
           ListTile(
             title: const Text('1 lb a week'),
-            leading: Radio<String>(value: "moderate", toggleable: true, activeColor: Colors.blue, groupValue: loseTarget, onChanged: (newValue){ 
+            leading: Radio<String>(value: "moderate", toggleable: true, activeColor: Colors.blue, groupValue: weightGoalRate, onChanged: (newValue){ 
               setState(() {
-                loseTarget = newValue;
+                weightGoalRate = newValue;
               }); 
             },),
           ),
@@ -126,9 +127,9 @@ class _WeightGoal extends State<WeightGoal>{
         Container(height: 50, child: 
           ListTile(
             title: const Text('1.5 lbs a week'),
-            leading: Radio<String>(value: "fast", toggleable: true, activeColor: Colors.blue, groupValue: loseTarget, onChanged: (newValue){ 
+            leading: Radio<String>(value: "fast", toggleable: true, activeColor: Colors.blue, groupValue: weightGoalRate, onChanged: (newValue){ 
               setState(() {
-                loseTarget = newValue;
+                weightGoalRate = newValue;
               }); 
             },),
           ),

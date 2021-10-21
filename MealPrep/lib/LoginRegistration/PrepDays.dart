@@ -29,6 +29,7 @@ String? days;
   Widget build(BuildContext context) {    
  
     void nextClicked(){
+      CurrentSession.currentProfile.prepDays = prepDaysController.currentOptions;
       CurrentSession.currentProfile.finsihedRegistration = true;
       CurrentSession.currentProfile.save();
 
