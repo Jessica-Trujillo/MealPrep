@@ -26,9 +26,9 @@ class _HomePageState extends State<HomePage> {
 
   Widget buildCard(String title, String calories, String mealTitle,
       String ingredient1, String ingredient2) {
-    return Container(
+    return Card(
       margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
-      color: MyColors.accentColor,
+      color: MyColors.cardColor,
       child: Container(
           child: Row(children: [
         Container(
@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
               child: Image.asset("images/backgroundImage.png"),
             )),
         Container(
-            margin: EdgeInsets.all(10),
+            margin: EdgeInsets.fromLTRB(15, 0, 0, 0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -49,16 +49,14 @@ class _HomePageState extends State<HomePage> {
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white))),
+                            color: Color(0xff333333)))),
                 FittedBox(
-                    child: Text(calories + " Calories",
-                        style: TextStyle(fontSize: 16, color: Colors.white))),
-                FittedBox(
-                    child: Text(mealTitle,
-                        style: TextStyle(fontSize: 16, color: Colors.white))),
+                    child:
+                        Text(calories + " Calories", style: MyStyles.bodyText)),
+                FittedBox(child: Text(mealTitle, style: MyStyles.bodyText)),
                 Divider(color: Colors.black, thickness: 3),
-                Text(ingredient1, style: TextStyle(color: Colors.white)),
-                Text(ingredient2, style: TextStyle(color: Colors.white))
+                Text(ingredient1, style: MyStyles.bodyText),
+                Text(ingredient2, style: MyStyles.bodyText)
               ],
             ))
       ])),
@@ -102,20 +100,12 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         children: [
           Container(
-              margin: EdgeInsets.only(top: 20),
-              child: Text('Weekly Overview',
-                  style: TextStyle(
-                      color: Color(0xff333333),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold))),
+              margin: EdgeInsets.only(top: 15),
+              child: Text('Weekly Overview', style: MyStyles.h1Text)),
           _calendarTimeline,
           Container(
-              margin: EdgeInsets.only(top: 20),
-              child: Text('Meals for Today',
-                  style: TextStyle(
-                      color: Color(0xff333333),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold))),
+              margin: EdgeInsets.only(top: 15),
+              child: Text('Meals for Today', style: MyStyles.h1Text)),
           Expanded(
               child: Column(children: [
             buildCard("Breakfast", "422", "Frosted Flakes", "1 cup whole milk",
