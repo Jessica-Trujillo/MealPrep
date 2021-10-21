@@ -54,7 +54,6 @@ class _RootNavigationPageState extends State<RootNavigationPage> {
             ],
           ),
           child: BottomNavigationBar(
-            backgroundColor: Color(0xffffffff),
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(Icons.home_outlined,

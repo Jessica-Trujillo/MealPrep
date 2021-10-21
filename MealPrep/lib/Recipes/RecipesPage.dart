@@ -9,6 +9,24 @@ class RecipesPage extends StatefulWidget {
 }
 
 class _RecipesPageState extends State<RecipesPage> {
+  Widget featuredMealCard(String mealTitle) {
+    return Card(
+        child: Container(
+            child: Column(
+      children: [
+        Container(
+          height: 100,
+          width: 100,
+          child: FittedBox(
+              fit: BoxFit.cover,
+              clipBehavior: Clip.hardEdge,
+              child: Image.asset("images/backgroundImage.png")),
+        ),
+        Container(margin: EdgeInsets.all(10), child: Text(mealTitle))
+      ],
+    )));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,6 +34,21 @@ class _RecipesPageState extends State<RecipesPage> {
           backgroundColor: MyColors.accentColor,
           title: const Text('Recipes'),
         ),
-        body: Text('Hi'));
+        body: SingleChildScrollView(
+          child: Column(children: [
+            Container(
+                margin: EdgeInsets.only(top: 15),
+                child: Text('Featured', style: MyStyles.h1Text)),
+            Row(
+              children: [
+                featuredMealCard("Sandwich"),
+                featuredMealCard("Steaks")
+              ],
+            ),
+            Container(
+                margin: EdgeInsets.only(top: 15),
+                child: Text('Recipes', style: MyStyles.h1Text))
+          ]),
+        ));
   }
 }

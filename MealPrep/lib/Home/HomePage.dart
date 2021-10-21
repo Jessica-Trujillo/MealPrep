@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget buildCard(String title, String calories, String mealTitle,
       String ingredient1, String ingredient2) {
-    return Container(
+    return Card(
       margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
       color: MyColors.cardColor,
       child: Container(
