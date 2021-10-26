@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class MyColors {
   static Color accentColor = Color(0xffe46060);
-  static Color cardColor = Color(0xfff5f5f5);
+  static Color cardColor = Colors.grey[350]!;
 }
 
 class MyStyles {

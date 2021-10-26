@@ -18,6 +18,8 @@ namespace WebApplication1.Controllers
   {
     public Meal meal { get; set; }
     
+    public int Day { get; set; }
+
     public int Hour { get; set; }
     public int Minute { get; set; }
   }
@@ -140,12 +142,49 @@ namespace WebApplication1.Controllers
                 storeLinks = new [] { "https://www.walmart.com/ip/Cap-n-Crunch-Breakfast-Cereal-Crunch-Berries-40-oz-Bag/45912909" }
               }
             }
+          },
+          new Ingredient()
+          {
+            Name = "Bread",
+            calories = 130,
+            ExpirationTimeInDays = 7,
+            id = 3,
+            quantityForCalorie = "1 slice",
+            tags = new [] { "Gluten" },
+            storeIngredients = new[]
+            {
+              new StoreIngredient()
+              {
+                costInPennies = 298,
+                quantity = "12 slices",
+                storeLinks = new [] { "https://www.walmart.com/ip/Oroweat-Whole-Grains-100-Whole-Wheat-Bread-Baked-with-Simple-Ingredients-Whole-Wheat-24-oz/10451446" }
+              }
+            }
+          },
+          new Ingredient()
+          {
+            Name = "Lunch Meat Turkey",
+            calories = 130,
+            ExpirationTimeInDays = 7,
+            id = 4,
+            quantityForCalorie = "1 slice",
+            tags = new String[] {},
+            storeIngredients = new[]
+            {
+              new StoreIngredient()
+              {
+                costInPennies = 443,
+                quantity = "12 slices",
+                storeLinks = new [] { "https://www.walmart.com/ip/Great-Value-Thin-Sliced-Oven-Roasted-Turkey-Breast-Family-Pack-8-oz-2-count/47394316" }
+              }
+            }
           }
         },
         Meals = new[]
         {
           new MealTime()
           {
+            Day = 0,
             Hour = 8,
             Minute = 30,
             meal = new Meal()
@@ -178,7 +217,676 @@ namespace WebApplication1.Controllers
 
             }
           },
-         
+          new MealTime()
+          {
+            Day = 0,
+            Hour = 12,
+            Minute = 30,
+            meal = new Meal()
+            {
+              name = "Sandwich",
+              calorieCounter = 450,
+              carbPercent = 0.9,
+              fatPercent = 0.05,
+              proteinPercent = 0.05,
+              costInPennies = 200,
+              tags = new []{"Gluten", "Dairy" },
+              recipe = "Call Jessica, have her make you a sandwich",
+              minutesNeededBeforeMeal = 2,
+              totalCookTime = 0,
+              totalPrepTime = 2,
+              ingredients = new[]
+              {
+                new IngredientInstance()
+                {
+                  ingredientId = 3,
+                  Quantity = "2 slices"
+                },
+                new IngredientInstance()
+                {
+                  ingredientId = 4,
+                  Quantity = "3 slices"
+                },
+
+              }
+
+            }
+          },
+          new MealTime()
+          {
+            Day = 0,
+            Hour = 17,
+            Minute = 0,
+            meal = new Meal()
+            {
+              name = "Turkey Dinner",
+              calorieCounter = 450,
+              carbPercent = 0.2,
+              fatPercent = 0.3,
+              proteinPercent = 0.5,
+              costInPennies = 200,
+              tags = new String[]{  },
+              recipe = "Take turkey out of container,  place on plate",
+              minutesNeededBeforeMeal = 2,
+              totalCookTime = 0,
+              totalPrepTime = 2,
+              ingredients = new[]
+              {
+                new IngredientInstance()
+                {
+                  ingredientId = 4,
+                  Quantity = "6 slices"
+                },
+              }
+
+            }
+          },
+
+          new MealTime()
+          {
+            Day = 1,
+            Hour = 8,
+            Minute = 30,
+            meal = new Meal()
+            {
+              name = "Cap'n Crunch Cereal with whole milk",
+              calorieCounter = 400,
+              carbPercent = 0.8,
+              fatPercent = 0.1,
+              proteinPercent = 0.1,
+              costInPennies = 100,
+              tags = new []{"Gluten", "Dairy" },
+              recipe = "Take cereal out of bag, pour into bowl, add milk,  stir for 3 minutes, shake then serve",
+              minutesNeededBeforeMeal = 2,
+              totalCookTime = 0,
+              totalPrepTime = 0,
+              ingredients = new[]
+              {
+                new IngredientInstance()
+                {
+                  ingredientId = 1,
+                  Quantity = "1 cup"
+                },
+                new IngredientInstance()
+                {
+                  ingredientId = 2,
+                  Quantity = "1 cup"
+                },
+
+              }
+
+            }
+          },
+          new MealTime()
+          {
+            Day = 1,
+            Hour = 12,
+            Minute = 30,
+            meal = new Meal()
+            {
+              name = "Sandwich",
+              calorieCounter = 450,
+              carbPercent = 0.9,
+              fatPercent = 0.05,
+              proteinPercent = 0.05,
+              costInPennies = 200,
+              tags = new []{"Gluten", "Dairy" },
+              recipe = "Call Jessica, have her make you a sandwich",
+              minutesNeededBeforeMeal = 2,
+              totalCookTime = 0,
+              totalPrepTime = 2,
+              ingredients = new[]
+              {
+                new IngredientInstance()
+                {
+                  ingredientId = 3,
+                  Quantity = "2 slices"
+                },
+                new IngredientInstance()
+                {
+                  ingredientId = 4,
+                  Quantity = "3 slices"
+                },
+
+              }
+
+            }
+          },
+          new MealTime()
+          {
+            Day = 1,
+            Hour = 17,
+            Minute = 0,
+            meal = new Meal()
+            {
+              name = "Turkey Dinner",
+              calorieCounter = 450,
+              carbPercent = 0.2,
+              fatPercent = 0.3,
+              proteinPercent = 0.5,
+              costInPennies = 200,
+              tags = new String[]{  },
+              recipe = "Take turkey out of container,  place on plate",
+              minutesNeededBeforeMeal = 2,
+              totalCookTime = 0,
+              totalPrepTime = 2,
+              ingredients = new[]
+              {
+                new IngredientInstance()
+                {
+                  ingredientId = 4,
+                  Quantity = "6 slices"
+                },
+              }
+
+            }
+          },
+
+
+          new MealTime()
+          {
+            Day = 2,
+            Hour = 8,
+            Minute = 30,
+            meal = new Meal()
+            {
+              name = "Cap'n Crunch Cereal with whole milk",
+              calorieCounter = 400,
+              carbPercent = 0.8,
+              fatPercent = 0.1,
+              proteinPercent = 0.1,
+              costInPennies = 100,
+              tags = new []{"Gluten", "Dairy" },
+              recipe = "Take cereal out of bag, pour into bowl, add milk,  stir for 3 minutes, shake then serve",
+              minutesNeededBeforeMeal = 2,
+              totalCookTime = 0,
+              totalPrepTime = 0,
+              ingredients = new[]
+              {
+                new IngredientInstance()
+                {
+                  ingredientId = 1,
+                  Quantity = "1 cup"
+                },
+                new IngredientInstance()
+                {
+                  ingredientId = 2,
+                  Quantity = "1 cup"
+                },
+
+              }
+
+            }
+          },
+          new MealTime()
+          {
+            Day = 2,
+            Hour = 12,
+            Minute = 30,
+            meal = new Meal()
+            {
+              name = "Sandwich",
+              calorieCounter = 450,
+              carbPercent = 0.9,
+              fatPercent = 0.05,
+              proteinPercent = 0.05,
+              costInPennies = 200,
+              tags = new []{"Gluten", "Dairy" },
+              recipe = "Call Jessica, have her make you a sandwich",
+              minutesNeededBeforeMeal = 2,
+              totalCookTime = 0,
+              totalPrepTime = 2,
+              ingredients = new[]
+              {
+                new IngredientInstance()
+                {
+                  ingredientId = 3,
+                  Quantity = "2 slices"
+                },
+                new IngredientInstance()
+                {
+                  ingredientId = 4,
+                  Quantity = "3 slices"
+                },
+
+              }
+
+            }
+          },
+          new MealTime()
+          {
+            Day = 2,
+            Hour = 17,
+            Minute = 0,
+            meal = new Meal()
+            {
+              name = "Turkey Dinner",
+              calorieCounter = 450,
+              carbPercent = 0.2,
+              fatPercent = 0.3,
+              proteinPercent = 0.5,
+              costInPennies = 200,
+              tags = new String[]{  },
+              recipe = "Take turkey out of container,  place on plate",
+              minutesNeededBeforeMeal = 2,
+              totalCookTime = 0,
+              totalPrepTime = 2,
+              ingredients = new[]
+              {
+                new IngredientInstance()
+                {
+                  ingredientId = 4,
+                  Quantity = "6 slices"
+                },
+              }
+
+            }
+          },
+
+
+          new MealTime()
+          {
+            Day = 3,
+            Hour = 8,
+            Minute = 30,
+            meal = new Meal()
+            {
+              name = "Cap'n Crunch Cereal with whole milk",
+              calorieCounter = 400,
+              carbPercent = 0.8,
+              fatPercent = 0.1,
+              proteinPercent = 0.1,
+              costInPennies = 100,
+              tags = new []{"Gluten", "Dairy" },
+              recipe = "Take cereal out of bag, pour into bowl, add milk,  stir for 3 minutes, shake then serve",
+              minutesNeededBeforeMeal = 2,
+              totalCookTime = 0,
+              totalPrepTime = 0,
+              ingredients = new[]
+              {
+                new IngredientInstance()
+                {
+                  ingredientId = 1,
+                  Quantity = "1 cup"
+                },
+                new IngredientInstance()
+                {
+                  ingredientId = 2,
+                  Quantity = "1 cup"
+                },
+
+              }
+
+            }
+          },
+          new MealTime()
+          {
+            Day = 3,
+            Hour = 12,
+            Minute = 30,
+            meal = new Meal()
+            {
+              name = "Sandwich",
+              calorieCounter = 450,
+              carbPercent = 0.9,
+              fatPercent = 0.05,
+              proteinPercent = 0.05,
+              costInPennies = 200,
+              tags = new []{"Gluten", "Dairy" },
+              recipe = "Call Jessica, have her make you a sandwich",
+              minutesNeededBeforeMeal = 2,
+              totalCookTime = 0,
+              totalPrepTime = 2,
+              ingredients = new[]
+              {
+                new IngredientInstance()
+                {
+                  ingredientId = 3,
+                  Quantity = "2 slices"
+                },
+                new IngredientInstance()
+                {
+                  ingredientId = 4,
+                  Quantity = "3 slices"
+                },
+
+              }
+
+            }
+          },
+          new MealTime()
+          {
+            Day = 3,
+            Hour = 17,
+            Minute = 0,
+            meal = new Meal()
+            {
+              name = "Turkey Dinner",
+              calorieCounter = 450,
+              carbPercent = 0.2,
+              fatPercent = 0.3,
+              proteinPercent = 0.5,
+              costInPennies = 200,
+              tags = new String[]{  },
+              recipe = "Take turkey out of container,  place on plate",
+              minutesNeededBeforeMeal = 2,
+              totalCookTime = 0,
+              totalPrepTime = 2,
+              ingredients = new[]
+              {
+                new IngredientInstance()
+                {
+                  ingredientId = 4,
+                  Quantity = "6 slices"
+                },
+              }
+
+            }
+          },
+
+
+          new MealTime()
+          {
+            Day = 4,
+            Hour = 8,
+            Minute = 30,
+            meal = new Meal()
+            {
+              name = "Cap'n Crunch Cereal with whole milk",
+              calorieCounter = 400,
+              carbPercent = 0.8,
+              fatPercent = 0.1,
+              proteinPercent = 0.1,
+              costInPennies = 100,
+              tags = new []{"Gluten", "Dairy" },
+              recipe = "Take cereal out of bag, pour into bowl, add milk,  stir for 3 minutes, shake then serve",
+              minutesNeededBeforeMeal = 2,
+              totalCookTime = 0,
+              totalPrepTime = 0,
+              ingredients = new[]
+              {
+                new IngredientInstance()
+                {
+                  ingredientId = 1,
+                  Quantity = "1 cup"
+                },
+                new IngredientInstance()
+                {
+                  ingredientId = 2,
+                  Quantity = "1 cup"
+                },
+
+              }
+
+            }
+          },
+          new MealTime()
+          {
+            Day = 4,
+            Hour = 12,
+            Minute = 30,
+            meal = new Meal()
+            {
+              name = "Sandwich",
+              calorieCounter = 450,
+              carbPercent = 0.9,
+              fatPercent = 0.05,
+              proteinPercent = 0.05,
+              costInPennies = 200,
+              tags = new []{"Gluten", "Dairy" },
+              recipe = "Call Jessica, have her make you a sandwich",
+              minutesNeededBeforeMeal = 2,
+              totalCookTime = 0,
+              totalPrepTime = 2,
+              ingredients = new[]
+              {
+                new IngredientInstance()
+                {
+                  ingredientId = 3,
+                  Quantity = "2 slices"
+                },
+                new IngredientInstance()
+                {
+                  ingredientId = 4,
+                  Quantity = "3 slices"
+                },
+
+              }
+
+            }
+          },
+          new MealTime()
+          {
+            Day = 4,
+            Hour = 17,
+            Minute = 0,
+            meal = new Meal()
+            {
+              name = "Turkey Dinner",
+              calorieCounter = 450,
+              carbPercent = 0.2,
+              fatPercent = 0.3,
+              proteinPercent = 0.5,
+              costInPennies = 200,
+              tags = new String[]{  },
+              recipe = "Take turkey out of container,  place on plate",
+              minutesNeededBeforeMeal = 2,
+              totalCookTime = 0,
+              totalPrepTime = 2,
+              ingredients = new[]
+              {
+                new IngredientInstance()
+                {
+                  ingredientId = 4,
+                  Quantity = "6 slices"
+                },
+              }
+
+            }
+          },
+
+
+          new MealTime()
+          {
+            Day = 5,
+            Hour = 8,
+            Minute = 30,
+            meal = new Meal()
+            {
+              name = "Cap'n Crunch Cereal with whole milk",
+              calorieCounter = 400,
+              carbPercent = 0.8,
+              fatPercent = 0.1,
+              proteinPercent = 0.1,
+              costInPennies = 100,
+              tags = new []{"Gluten", "Dairy" },
+              recipe = "Take cereal out of bag, pour into bowl, add milk,  stir for 3 minutes, shake then serve",
+              minutesNeededBeforeMeal = 2,
+              totalCookTime = 0,
+              totalPrepTime = 0,
+              ingredients = new[]
+              {
+                new IngredientInstance()
+                {
+                  ingredientId = 1,
+                  Quantity = "1 cup"
+                },
+                new IngredientInstance()
+                {
+                  ingredientId = 2,
+                  Quantity = "1 cup"
+                },
+
+              }
+
+            }
+          },
+          new MealTime()
+          {
+            Day = 5,
+            Hour = 12,
+            Minute = 30,
+            meal = new Meal()
+            {
+              name = "Sandwich",
+              calorieCounter = 450,
+              carbPercent = 0.9,
+              fatPercent = 0.05,
+              proteinPercent = 0.05,
+              costInPennies = 200,
+              tags = new []{"Gluten", "Dairy" },
+              recipe = "Call Jessica, have her make you a sandwich",
+              minutesNeededBeforeMeal = 2,
+              totalCookTime = 0,
+              totalPrepTime = 2,
+              ingredients = new[]
+              {
+                new IngredientInstance()
+                {
+                  ingredientId = 3,
+                  Quantity = "2 slices"
+                },
+                new IngredientInstance()
+                {
+                  ingredientId = 4,
+                  Quantity = "3 slices"
+                },
+
+              }
+
+            }
+          },
+          new MealTime()
+          {
+            Day = 5,
+            Hour = 17,
+            Minute = 0,
+            meal = new Meal()
+            {
+              name = "Turkey Dinner",
+              calorieCounter = 450,
+              carbPercent = 0.2,
+              fatPercent = 0.3,
+              proteinPercent = 0.5,
+              costInPennies = 200,
+              tags = new String[]{  },
+              recipe = "Take turkey out of container,  place on plate",
+              minutesNeededBeforeMeal = 2,
+              totalCookTime = 0,
+              totalPrepTime = 2,
+              ingredients = new[]
+              {
+                new IngredientInstance()
+                {
+                  ingredientId = 4,
+                  Quantity = "6 slices"
+                },
+              }
+
+            }
+          },
+
+
+          new MealTime()
+          {
+            Day = 6,
+            Hour = 8,
+            Minute = 30,
+            meal = new Meal()
+            {
+              name = "Cap'n Crunch Cereal with whole milk",
+              calorieCounter = 400,
+              carbPercent = 0.8,
+              fatPercent = 0.1,
+              proteinPercent = 0.1,
+              costInPennies = 100,
+              tags = new []{"Gluten", "Dairy" },
+              recipe = "Take cereal out of bag, pour into bowl, add milk,  stir for 3 minutes, shake then serve",
+              minutesNeededBeforeMeal = 2,
+              totalCookTime = 0,
+              totalPrepTime = 0,
+              ingredients = new[]
+              {
+                new IngredientInstance()
+                {
+                  ingredientId = 1,
+                  Quantity = "1 cup"
+                },
+                new IngredientInstance()
+                {
+                  ingredientId = 2,
+                  Quantity = "1 cup"
+                },
+
+              }
+
+            }
+          },
+          new MealTime()
+          {
+            Day = 6,
+            Hour = 12,
+            Minute = 30,
+            meal = new Meal()
+            {
+              name = "Sandwich",
+              calorieCounter = 450,
+              carbPercent = 0.9,
+              fatPercent = 0.05,
+              proteinPercent = 0.05,
+              costInPennies = 200,
+              tags = new []{"Gluten", "Dairy" },
+              recipe = "Call Jessica, have her make you a sandwich",
+              minutesNeededBeforeMeal = 2,
+              totalCookTime = 0,
+              totalPrepTime = 2,
+              ingredients = new[]
+              {
+                new IngredientInstance()
+                {
+                  ingredientId = 3,
+                  Quantity = "2 slices"
+                },
+                new IngredientInstance()
+                {
+                  ingredientId = 4,
+                  Quantity = "3 slices"
+                },
+
+              }
+
+            }
+          },
+          new MealTime()
+          {
+            Day = 6,
+            Hour = 17,
+            Minute = 0,
+            meal = new Meal()
+            {
+              name = "Turkey Dinner",
+              calorieCounter = 450,
+              carbPercent = 0.2,
+              fatPercent = 0.3,
+              proteinPercent = 0.5,
+              costInPennies = 200,
+              tags = new String[]{  },
+              recipe = "Take turkey out of container,  place on plate",
+              minutesNeededBeforeMeal = 2,
+              totalCookTime = 0,
+              totalPrepTime = 2,
+              ingredients = new[]
+              {
+                new IngredientInstance()
+                {
+                  ingredientId = 4,
+                  Quantity = "6 slices"
+                },
+              }
+
+            }
+          },
+
         }
       };
     }

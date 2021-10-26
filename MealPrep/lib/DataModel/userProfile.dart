@@ -1,5 +1,9 @@
 
+import 'dart:ffi';
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:foodplanapp/main.dart';
 
 class UserProfile {
  
@@ -16,6 +20,10 @@ class UserProfile {
   String? weightGoal;
   String? weightGoalRate;
 
+  String? currentMealPlanJson;
+  FullMealPlan? resolvedMealPlan;
+  DateTime? mealPlanStartDay;
+
   int? heightInInches;
 
   List<String>? dietaryRestrictions;
@@ -27,6 +35,7 @@ class UserProfile {
   List<String> favoriteMeals = [];
   List<String> blacklistMeals = [];
 
+  Uint8List? profilePicture;
 
   UserProfile(this.username, this.email, this.finsihedRegistration);
 
@@ -69,8 +78,14 @@ class UserProfile {
         case "weightGoalRate" :
           weightGoalRate = entry.value as String?;
           break;
+        case "currentMealPlanJson" :
+          currentMealPlanJson = entry.value as String?;
+          break;
         case "birthday":
           birthday = DateTime.tryParse(entry.value.toString());
+          break;
+        case "mealPlanStartDay":
+          mealPlanStartDay = DateTime.tryParse(entry.value.toString());
           break;
         case "finsihedRegistration":
           finsihedRegistration = entry.value as bool;
@@ -80,6 +95,24 @@ class UserProfile {
           break;
         case "prepDays":
           prepDays = readList(entry);
+          break;
+        case "profilePicture":
+          var dynList = entry.value as List<dynamic>?;
+          List<int> newList = [];
+          if (dynList != null){
+            for (var item in dynList){
+              if (item is int){
+                newList.add(item);
+                continue;
+              }
+              int? parsedInt = int.tryParse(item.toString());
+              if (parsedInt != null){
+                newList.add(parsedInt);
+              }
+            }
+          }
+
+          profilePicture = Uint8List.fromList(newList);
           break;
         case "goodDays":
           var dynList = entry.value as List<dynamic>?;
@@ -140,6 +173,9 @@ class UserProfile {
       "heightInInches" : heightInInches,
       "weightGoal" : weightGoal,
       "weightGoalRate" : weightGoalRate,
+      "currentMealPlanJson" : currentMealPlanJson,
+      "mealPlanStartDay" : mealPlanStartDay,      
+      "profilePicture" : profilePicture
     };
 
     await doc.set(documentData);
