@@ -107,7 +107,7 @@ class _WeightGoal extends State<WeightGoal>{
         Container(height: 50, child: 
           ListTile(
             title: const Text('1/2 lb a week'),
-            leading: Radio<String>(value: "slow", toggleable: true, activeColor: Colors.blue, groupValue: weightGoalRate, onChanged: (newValue){ 
+            leading: Radio<String>(value: "1/2 lb", toggleable: true, activeColor: Colors.blue, groupValue: weightGoalRate, onChanged: (newValue){ 
               setState(() {
                 weightGoalRate = newValue;
               }); 
@@ -117,7 +117,7 @@ class _WeightGoal extends State<WeightGoal>{
         Container(height: 50, child: 
           ListTile(
             title: const Text('1 lb a week'),
-            leading: Radio<String>(value: "moderate", toggleable: true, activeColor: Colors.blue, groupValue: weightGoalRate, onChanged: (newValue){ 
+            leading: Radio<String>(value: "1 lb", toggleable: true, activeColor: Colors.blue, groupValue: weightGoalRate, onChanged: (newValue){ 
               setState(() {
                 weightGoalRate = newValue;
               }); 
@@ -127,7 +127,7 @@ class _WeightGoal extends State<WeightGoal>{
         Container(height: 50, child: 
           ListTile(
             title: const Text('1.5 lbs a week'),
-            leading: Radio<String>(value: "fast", toggleable: true, activeColor: Colors.blue, groupValue: weightGoalRate, onChanged: (newValue){ 
+            leading: Radio<String>(value: "1.5 lb", toggleable: true, activeColor: Colors.blue, groupValue: weightGoalRate, onChanged: (newValue){ 
               setState(() {
                 weightGoalRate = newValue;
               }); 
