@@ -112,12 +112,16 @@ void main() {
         if(entry.key == "minute"){
           mealTime.minute = int.parse(entry.value.toString());
         }
+        if(entry.key == "day"){
+          mealTime.day = int.parse(entry.value.toString());
+        }
       }
       return mealTime;
     }
 
     Meal? meal;
     
+    int? day;
     int? hour;
     int? minute;
   }

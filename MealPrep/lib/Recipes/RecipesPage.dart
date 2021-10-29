@@ -33,6 +33,7 @@ class _RecipesPageState extends State<RecipesPage> {
         appBar: AppBar(
           backgroundColor: MyColors.accentColor,
           title: const Text('Recipes'),
+         automaticallyImplyLeading: false,
         ),
         body: SingleChildScrollView(
           child: Column(children: [
