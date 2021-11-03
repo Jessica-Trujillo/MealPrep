@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodplanapp/MyColors.dart';
+import 'package:foodplanapp/Recipes/AddRecipe.dart';
+import 'package:foodplanapp/Recipes/Recipe.dart';
 
 class RecipesPage extends StatefulWidget {
   @override
@@ -21,24 +23,33 @@ class _RecipesPageState extends State<RecipesPage> {
     return Card(
         margin: EdgeInsets.fromLTRB(20, 5, 0, 5),
         color: MyColors.cardColor,
-        child: Container(
-            child: Column(
-          children: [
-            Container(
-              height: 167,
-              width: 167,
-              child: FittedBox(
-                  fit: BoxFit.cover,
-                  clipBehavior: Clip.hardEdge,
-                  child: Image.asset("images/backgroundImage.png")),
-            ),
-            Container(
-                margin: EdgeInsets.all(10),
-                child: Text(mealTitle,
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 16)))
-          ],
-        )));
+        child: new InkWell(
+          onTap: () {
+            var page = Recipe(recipeTitle: "Classic Hamburger");
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => page),
+            ).then((value) => setState(() {}));
+          },
+          child: Container(
+              child: Column(
+            children: [
+              Container(
+                height: 167,
+                width: 167,
+                child: FittedBox(
+                    fit: BoxFit.cover,
+                    clipBehavior: Clip.hardEdge,
+                    child: Image.asset("images/backgroundImage.png")),
+              ),
+              Container(
+                  margin: EdgeInsets.all(10),
+                  child: Text(mealTitle,
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16)))
+            ],
+          )),
+        ));
   }
 
   Widget mealCard(String title, String calories, String mealTitle,
@@ -86,15 +97,25 @@ class _RecipesPageState extends State<RecipesPage> {
           backgroundColor: MyColors.accentColor,
           title: const Text('Recipes'),
         ),
+        floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              var page = AddRecipe();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => page),
+              ).then((value) => setState(() {}));
+            },
+            child: const Icon(Icons.add),
+            backgroundColor: MyColors.accentColor),
         body: SingleChildScrollView(
           child: Column(children: [
             Container(
-              margin: EdgeInsets.only(top: 15),
+              margin: EdgeInsets.fromLTRB(20, 15, 20, 0),
               child: Wrap(
                 spacing: 8,
                 children: [
+                  buildChip("My Recipes", Colors.blueGrey),
                   buildChip("Vegan", Color(0xfff2b100)),
-                  buildChip("Vegetarian", Color(0xfff2b100)),
                   buildChip("Keto", Color(0xfff2b100)),
                   buildChip("Dairy-Free", Color(0xfff2b100)),
                   buildChip("Glucose-Free", Color(0xfff2b100)),
@@ -105,19 +126,21 @@ class _RecipesPageState extends State<RecipesPage> {
               ),
             ),
             Container(
-                margin: EdgeInsets.only(top: 15),
+                alignment: Alignment.bottomLeft,
+                margin: EdgeInsets.fromLTRB(25, 15, 0, 0),
                 child: Text('Featured', style: MyStyles.h1Text)),
             Container(
               alignment: Alignment.center,
               child: Row(
                 children: [
-                  featuredMealCard("Sandwich"),
+                  featuredMealCard("Classic Hamburger"),
                   featuredMealCard("Steaks")
                 ],
               ),
             ),
             Container(
-                margin: EdgeInsets.only(top: 15),
+                alignment: Alignment.bottomLeft,
+                margin: EdgeInsets.fromLTRB(25, 15, 0, 0),
                 child: Text('Recipes', style: MyStyles.h1Text)),
             Container(
                 child: Column(children: [
@@ -126,7 +149,7 @@ class _RecipesPageState extends State<RecipesPage> {
               mealCard(
                   "Lunch", "360", "Sandwich", "2 slices bread", "1 cup cheese"),
               mealCard("Dinner", "500", "Steaks", "1 cup steak", "5 lb potato"),
-            ]))
+            ])),
           ]),
         ));
   }
