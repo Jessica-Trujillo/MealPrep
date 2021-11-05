@@ -16,7 +16,6 @@ class _EditProfileState extends State<EditProfile> {
   late PickedFile _imagePicked;
   final ImagePicker _picker = ImagePicker();
 
-
   Widget buildCard(String title, String value, Function()? onEdit){
     Widget? trailing;
     if (onEdit != null){
@@ -166,7 +165,6 @@ class _EditProfileState extends State<EditProfile> {
     onEnteredValue(picked);
   }
 
-
   @override
   Widget build(BuildContext context) {
     
@@ -241,7 +239,7 @@ class _EditProfileState extends State<EditProfile> {
       imageProvider = MemoryImage(CurrentSession.currentProfile.profilePicture!);
     }
     else{
-      imageProvider = AssetImage("images/defaultPic.jpg");
+      imageProvider = AssetImage("images/lake.jpg");
     }
 
     return Center(
@@ -258,7 +256,7 @@ class _EditProfileState extends State<EditProfile> {
               showModalBottomSheet(
                 context: context, 
                 builder: ((builder) => bottomPop()),
-                );
+              );
             },
             child: Icon(
               Icons.camera_alt_outlined,
