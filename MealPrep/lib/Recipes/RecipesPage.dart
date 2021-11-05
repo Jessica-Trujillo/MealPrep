@@ -93,22 +93,23 @@ class _RecipesPageState extends State<RecipesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: MyColors.accentColor,
-          title: const Text('Recipes'),
-        ),
-        floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              var page = AddRecipe();
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => page),
-              ).then((value) => setState(() {}));
-            },
-            child: const Icon(Icons.add),
-            backgroundColor: MyColors.accentColor),
-        body: SingleChildScrollView(
-          child: Column(children: [
+      appBar: AppBar(
+        backgroundColor: MyColors.accentColor,
+        title: const Text('Recipes'),
+      ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            var page = AddRecipe();
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => page),
+            ).then((value) => setState(() {}));
+          },
+          child: const Icon(Icons.add),
+          backgroundColor: MyColors.accentColor),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
             Container(
               margin: EdgeInsets.fromLTRB(20, 15, 20, 0),
               child: Wrap(
@@ -143,14 +144,20 @@ class _RecipesPageState extends State<RecipesPage> {
                 margin: EdgeInsets.fromLTRB(25, 15, 0, 0),
                 child: Text('Recipes', style: MyStyles.h1Text)),
             Container(
-                child: Column(children: [
-              mealCard("Breakfast", "422", "Frosted Flakes", "1 cup whole milk",
-                  "1 cup frosted flakes"),
-              mealCard(
-                  "Lunch", "360", "Sandwich", "2 slices bread", "1 cup cheese"),
-              mealCard("Dinner", "500", "Steaks", "1 cup steak", "5 lb potato"),
-            ])),
-          ]),
-        ));
+              child: Column(
+                children: [
+                  mealCard("Breakfast", "422", "Frosted Flakes",
+                      "1 cup whole milk", "1 cup frosted flakes"),
+                  mealCard("Lunch", "360", "Sandwich", "2 slices bread",
+                      "1 cup cheese"),
+                  mealCard(
+                      "Dinner", "500", "Steaks", "1 cup steak", "5 lb potato"),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

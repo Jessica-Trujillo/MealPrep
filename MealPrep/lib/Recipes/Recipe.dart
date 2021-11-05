@@ -121,6 +121,21 @@ class _RecipeState extends State<Recipe> {
                                 fontSize: 16, fontWeight: FontWeight.bold)))
                   ],
                 ),
+                Row(
+                  children: [
+                    Container(
+                        width: 90,
+                        child: Text(
+                          "Calories:",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        )),
+                    Container(
+                        child: Text("600",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold)))
+                  ],
+                ),
                 Container(
                     margin: EdgeInsets.only(top: 20),
                     child: Text(

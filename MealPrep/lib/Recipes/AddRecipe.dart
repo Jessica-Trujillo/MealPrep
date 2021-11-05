@@ -12,8 +12,12 @@ class _AddRecipeState extends State<AddRecipe> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            backgroundColor: MyColors.accentColor, title: Text("Add Recipe")),
-        body: Text("Recipe Title"));
+      appBar: AppBar(
+          backgroundColor: MyColors.accentColor, title: Text("Add Recipe")),
+      body: Container(
+        margin: EdgeInsets.all(25),
+        child: Text(""),
+      ),
+    );
   }
 }
