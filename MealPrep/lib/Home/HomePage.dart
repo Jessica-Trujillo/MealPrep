@@ -138,11 +138,13 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         children: [
           Container(
-              margin: EdgeInsets.only(top: 15),
+              alignment: Alignment.bottomLeft,
+              margin: EdgeInsets.fromLTRB(25, 15, 0, 0),
               child: Text('Weekly Overview', style: MyStyles.h1Text)),
           _calendarTimeline,
           Container(
-              margin: EdgeInsets.only(top: 15),
+              alignment: Alignment.bottomLeft,
+              margin: EdgeInsets.fromLTRB(25, 15, 0, 0),
               child: Text('Meals for Today', style: MyStyles.h1Text)),
           Expanded(
               child: Column(children: mealCards
