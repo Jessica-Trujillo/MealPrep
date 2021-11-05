@@ -112,12 +112,16 @@ void main() {
         if(entry.key == "minute"){
           mealTime.minute = int.parse(entry.value.toString());
         }
+        if(entry.key == "day"){
+          mealTime.day = int.parse(entry.value.toString());
+        }
       }
       return mealTime;
     }
 
     Meal? meal;
     
+    int? day;
     int? hour;
     int? minute;
   }
@@ -145,6 +149,8 @@ void main() {
         else if (entry.key == "minutesNeededBeforeMeal") {
           meal.minutesNeededBeforeMeal = int.parse(entry.value.toString());
         }
+        // TODO: MealPhotoPath
+        // Deserialize photo path property as string;   see name example
         else if (entry.key == "ingredients") {
           List<IngredientInstance> ingredients = [];
           List<dynamic> value = entry.value;
@@ -198,6 +204,9 @@ void main() {
     double? fatPercent;
     double? proteinPercent;
     List<String>? tags;
+
+    // TODO: MealPhotoPath
+    // Add Image path property, name this the same as in API
   }
 
   class IngredientInstance
