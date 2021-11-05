@@ -103,24 +103,24 @@ class _CalendarPageState extends State<CalendarPage> {
   @override
   Widget build(BuildContext context) {
     CalendarCarousel _calendarCarouselNoHeader = CalendarCarousel<Event>(
-        // height: calendarHeight * 0.54,
-        weekendTextStyle: TextStyle(
-          color: Colors.red,
-        ),
-        todayButtonColor: Colors.transparent,
-        //markedDatesMap: _calandarEvents,
-        customDayBuilder: dayBuilder,
-        markedDateShowIcon: true,
-        markedDateIconMaxShown: 1,
-        markedDateMoreShowTotal: null,
-        markedDateIconBuilder: (event) {
-          return event.icon;
-        });
+      weekendTextStyle: TextStyle(
+        color: Colors.red,
+      ),
+      todayButtonColor: Colors.transparent,
+      customDayBuilder: dayBuilder,
+      markedDateShowIcon: true,
+      markedDateIconMaxShown: 1,
+      markedDateMoreShowTotal: null,
+      markedDateIconBuilder: (event) {
+        return event.icon;
+      }
+    );
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: MyColors.accentColor,
         title: const Text('Calendar'),
+        automaticallyImplyLeading: false,
       ),
       body: Column(
         children: <Widget>[

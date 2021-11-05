@@ -127,7 +127,7 @@ class LoginPageState extends State<LoginPage>{
       
       CurrentSession.currentProfile = userProfile;
       if (userProfile.finsihedRegistration) {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context){ return RootNavigationPage();}));
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context){ return RootNavigationPage();}), (_) => false);
       }
       else {
         Navigator.of(context).push(MaterialPageRoute(builder: (context){ return UserStats();}));
