@@ -49,7 +49,6 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
     });
   }
 
-
     Widget buildCard(String title, String value, Function()? onEdit){
     Widget? trailing;
     if (onEdit != null){

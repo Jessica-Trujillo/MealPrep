@@ -36,6 +36,9 @@ class _HomePageState extends State<HomePage> {
     return hour.toString() + ":" + minutePart + " AM";
   }
 
+
+// TODO: MealPhotoPath
+// Pass meal image path as parameter into method
   Widget buildCard(String title, String calories, String mealTitle,
       String ingredient1, String ingredient2) {
     return Card(
@@ -51,7 +54,10 @@ class _HomePageState extends State<HomePage> {
             child: FittedBox(
               fit: BoxFit.cover,
               clipBehavior: Clip.hardEdge,
-              child: Image.asset("images/backgroundImage.png"),
+              child: Image.asset("images/backgroundImage.png"), 
+              // TODO: MealPhotoPath
+              // Replace Image.asset with image from url;  Image.asset reads from your asset folder, you will need to reserach how to do this from url
+              // the url will be the parameter passed into method
             )),
         Expanded(child: 
           Container(
