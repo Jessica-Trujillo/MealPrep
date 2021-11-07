@@ -36,11 +36,8 @@ class _HomePageState extends State<HomePage> {
     return hour.toString() + ":" + minutePart + " AM";
   }
 
-
-// TODO: MealPhotoPath
-// Pass meal image path as parameter into method
   Widget buildCard(String title, String calories, String mealTitle,
-      String ingredient1, String ingredient2) {
+      String ingredient1, String ingredient2, String imagePath) {
     return Card(
       margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
       color: MyColors.cardColor,
@@ -54,28 +51,31 @@ class _HomePageState extends State<HomePage> {
             child: FittedBox(
               fit: BoxFit.cover,
               clipBehavior: Clip.hardEdge,
-              child: Image.asset("images/backgroundImage.png"), 
-              // TODO: MealPhotoPath
-              // Replace Image.asset with image from url;  Image.asset reads from your asset folder, you will need to reserach how to do this from url
-              // the url will be the parameter passed into method
+              child: Image.network(imagePath), 
             )),
         Expanded(child: 
           Container(
-              margin: EdgeInsets.fromLTRB(15, 10, 0, 10),
+              margin: EdgeInsets.fromLTRB(15, 10, 5, 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  FittedBox(
-                      child: Text(title,
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xff333333)))),
-                  FittedBox(
-                      child:
-                          Text(calories + " Calories", style: MyStyles.bodyText)),
+                  Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                    FittedBox(
+                        child: Text(title,
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xff333333)))),
+                    FittedBox(
+                        child:
+                            Text(calories + " Calories", style: MyStyles.bodyText)),
+                  ],),
                   
-                  Text(mealTitle, style: MyStyles.bodyText),
+                  Container(height: 5),
+                  Text(mealTitle, style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xff333333))),
                   Divider(color: Colors.black, thickness: 1),
                   Text(ingredient1, style: MyStyles.bodyText),
                   Text(ingredient2, style: MyStyles.bodyText),
@@ -98,12 +98,9 @@ class _HomePageState extends State<HomePage> {
       lastDate: DateTime.now().add(Duration(days: 365)),
       onDateSelected: (date) {
         setState(() {
-          var page = CalendarDayPage(trackedDay: date!);
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => page),
-          ).then((value) => setState(() {}));
-          _selectedDate = date;
+          if (date != null){
+            _selectedDate = date;
+          }
         });
       },
       leftMargin: 20,
@@ -116,34 +113,67 @@ class _HomePageState extends State<HomePage> {
       locale: 'en',
     );
 
-    var mealsForDay = CurrentSession.currentProfile.resolvedMealPlan?.meals?.where((element) => element.day == 0);
+
+    var startDay = CurrentSession.currentProfile.mealPlanStartDay;
     List<Widget> mealCards = [];
-    if (mealsForDay != null){
-      for(var meal in mealsForDay){
-        mealCards.add(
-          buildCard(hourAndMinuteToTime(meal.hour!, meal.minute!), 
-                    meal.meal?.calorieCounter?.toString() ?? "Unknown", 
-                    meal.meal?.name ?? "Unknown", 
-                    "1 cup whole milk",
-                    "1 cup frosted flakes")
-        );
-      } 
+    if (startDay != null){
+      var timeSinceStart = _selectedDate.difference(startDay);
+      int days = timeSinceStart.inDays;
+      if (days >= 0 && days < 7){
+        var mealsForDay = CurrentSession.currentProfile.resolvedMealPlan?.meals?.where((element) => element.day == days);
+        var ingNeeded = CurrentSession.currentProfile.resolvedMealPlan?.ingredientsNeeded;
+        if (mealsForDay != null){
+          for(var meal in mealsForDay){
+            String line1 ="";
+            String line2 = "";
+            var ings = meal.meal?.ingredients;
+            if (ings != null && ingNeeded != null){
+              if (ings.length == 1){
+                 var ingredient1= ingNeeded.firstWhere((element) => element.id == ings[0].ingredientId);
+                 line1 = ingredient1.name!;
+              }
+              else if (ings.length == 2){
+                 var ingredient1= ingNeeded.firstWhere((element) => element.id == ings[0].ingredientId);
+                 line1 = ingredient1.name!;
+
+                 var ingredient2= ingNeeded.firstWhere((element) => element.id == ings[1].ingredientId);
+                 line2 = ingredient2.name!;
+              }
+              else if (ings.length > 2){
+                 var ingredient1= ingNeeded.firstWhere((element) => element.id == ings[0].ingredientId);
+                 line1 = ingredient1.name!;
+
+                 line2 = "...";
+              }
+            }
+
+
+            mealCards.add(
+              buildCard(hourAndMinuteToTime(meal.hour!, meal.minute!), 
+                        meal.meal?.calorieCounter?.toString() ?? "Unknown", 
+                        meal.meal?.name ?? "Unknown", 
+                        line1,
+                        line2,
+                        meal.meal?.photoPath ?? "")
+            );
+          } 
+        }
+      }
+      else{
+        mealCards.add(Text("Sorry, this day does not fall under the current meal plan.", style: TextStyle(fontSize: 22), textAlign: TextAlign.center,));
+      }
     }
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: MyColors.accentColor,
-        title: const Text('Home'),
+        title: const Text('Meal Prep\'d'),
       ),
       body: Column(
         children: [
-          Container(
-              margin: EdgeInsets.only(top: 15),
-              child: Text('Weekly Overview', style: MyStyles.h1Text)),
+          Container(height: 15),
           _calendarTimeline,
-          Container(
-              margin: EdgeInsets.only(top: 15),
-              child: Text('Meals for Today', style: MyStyles.h1Text)),
+          Container(height: 25),
           Expanded(
               child: Column(children: mealCards
               ))

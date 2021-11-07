@@ -25,6 +25,7 @@ class _RootNavigationPageState extends State<RootNavigationPage> {
 
   void _onItemTapped(int index) {
     setState(() {
+
       _selectedIndex = index;
     });
   }
@@ -40,7 +41,7 @@ class _RootNavigationPageState extends State<RootNavigationPage> {
   }
   void ensureMealPlan() async {
     var currentUser = CurrentSession.currentProfile;
-    if (currentUser.currentMealPlanJson == null){
+    if (currentUser.currentMealPlanJson == null) {
       var request = Request(calorieGoal: 1700, 
                           numOfDays: 7, 
                           weeklyBudget: 500, 

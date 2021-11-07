@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace WebApplication1.Controllers
 {
@@ -14,11 +15,11 @@ namespace WebApplication1.Controllers
     }
 
     [HttpPost]
-    public FullMealPlan Post(
+    public async Task<FullMealPlan> Post(
       [FromBodyAttribute]
       Request request)
     {
-      return MealPlanCalculator.GetFullMealPlanFromRequest(request);
+      return await MealPlanCalculator.GetFullMealPlanFromRequest(request);
     }
   }
 }

@@ -84,7 +84,12 @@ class UserProfile {
           birthday = DateTime.tryParse(entry.value.toString());
           break;
         case "mealPlanStartDay":
-          mealPlanStartDay = DateTime.tryParse(entry.value.toString());
+          var time = entry.value;
+          if (time is Timestamp){
+            mealPlanStartDay = time.toDate();
+          }else{
+            mealPlanStartDay = DateTime.tryParse(entry.value.toString());
+          }
           break;
         case "finsihedRegistration":
           finsihedRegistration = entry.value as bool;
