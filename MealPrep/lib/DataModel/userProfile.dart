@@ -1,5 +1,8 @@
 
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:foodplanapp/main.dart';
 
 class UserProfile {
  
@@ -14,10 +17,16 @@ class UserProfile {
   int? calorieIntake;
   DateTime? birthday;
   String? weightGoal;
+  String? weightGoalRate;
+
+  String? currentMealPlanJson;
+  FullMealPlan? resolvedMealPlan;
+  DateTime? mealPlanStartDay;
 
   int? heightInInches;
 
   List<String>? dietaryRestrictions;
+  List<String>? prepDays;
 
   List<DateTime> goodDays = [];
   List<DateTime> badDays = [];
@@ -25,8 +34,21 @@ class UserProfile {
   List<String> favoriteMeals = [];
   List<String> blacklistMeals = [];
 
+  Uint8List? profilePicture;
 
   UserProfile(this.username, this.email, this.finsihedRegistration);
+
+  List<String> readList(MapEntry<String, dynamic> entry){
+    var dynList = entry.value as List<dynamic>?;
+    List<String> newList = [];
+    if (dynList != null){
+      for (var item in dynList){
+        newList.add(item.toString());
+      }
+    }
+
+    return newList;
+  }
 
   void load(Map<String,dynamic> data) {
     for (var entry in data.entries) {
@@ -52,11 +74,44 @@ class UserProfile {
         case "weightGoal" :
           weightGoal = entry.value as String?;
           break;
+        case "weightGoalRate" :
+          weightGoalRate = entry.value as String?;
+          break;
+        case "currentMealPlanJson" :
+          currentMealPlanJson = entry.value as String?;
+          break;
         case "birthday":
           birthday = DateTime.tryParse(entry.value.toString());
           break;
+        case "mealPlanStartDay":
+          mealPlanStartDay = DateTime.tryParse(entry.value.toString());
+          break;
         case "finsihedRegistration":
           finsihedRegistration = entry.value as bool;
+          break;
+        case "dietaryRestrictions":
+          dietaryRestrictions = readList(entry);
+          break;
+        case "prepDays":
+          prepDays = readList(entry);
+          break;
+        case "profilePicture":
+          var dynList = entry.value as List<dynamic>?;
+          List<int> newList = [];
+          if (dynList != null){
+            for (var item in dynList){
+              if (item is int){
+                newList.add(item);
+                continue;
+              }
+              int? parsedInt = int.tryParse(item.toString());
+              if (parsedInt != null){
+                newList.add(parsedInt);
+              }
+            }
+          }
+
+          profilePicture = Uint8List.fromList(newList);
           break;
         case "goodDays":
           var dynList = entry.value as List<dynamic>?;
@@ -108,6 +163,7 @@ class UserProfile {
       "calorieIntake" : calorieIntake,
       "birthday" : birthday,
       "dietaryRestrictions" : dietaryRestrictions,
+      "prepDays" : prepDays,
       "goodDays" : goodDays,
       "badDays" : badDays,
       "favoriteMeals" : favoriteMeals,
@@ -115,6 +171,10 @@ class UserProfile {
       "finsihedRegistration" : finsihedRegistration,
       "heightInInches" : heightInInches,
       "weightGoal" : weightGoal,
+      "weightGoalRate" : weightGoalRate,
+      "currentMealPlanJson" : currentMealPlanJson,
+      "mealPlanStartDay" : mealPlanStartDay,      
+      "profilePicture" : profilePicture
     };
 
     await doc.set(documentData);

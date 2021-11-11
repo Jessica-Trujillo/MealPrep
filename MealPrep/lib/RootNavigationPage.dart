@@ -1,8 +1,14 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:foodplanapp/Calendar/CalendarPage.dart';
+import 'package:foodplanapp/CurrentSession.dart';
 import 'package:foodplanapp/Home/HomePage.dart';
 import 'package:foodplanapp/Recipes/RecipesPage.dart';
 import 'package:foodplanapp/MyColors.dart';
+import 'package:foodplanapp/main.dart';
+import 'package:foodplanapp/Settings/SettingsPage.dart';
+
+import 'package:http/http.dart' as http;
 
 class RootNavigationPage extends StatefulWidget {
   @override
@@ -14,10 +20,50 @@ class RootNavigationPage extends StatefulWidget {
 class _RootNavigationPageState extends State<RootNavigationPage> {
   int _selectedIndex = 0;
 
+  bool hasMealPlan = false;
+
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    ensureMealPlan();
+    super.initState();
+  }
+
+  Future<bool> _onWillPop() async {
+    return false;
+  }
+  void ensureMealPlan() async {
+    var currentUser = CurrentSession.currentProfile;
+    if (currentUser.currentMealPlanJson == null){
+      var request = Request(calorieGoal: 1700, 
+                          numOfDays: 7, 
+                          weeklyBudget: 500, 
+                          blacklist: ["C"], 
+                          carbPercentage: 30, 
+                          fatPercentage: 40, 
+                          proteinPercentage: 30, 
+                          dietaryRestrictions: ["B"], 
+                          favorites: ["A"],
+                          recent: ["D"]);
+
+
+      //var response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/albums/1'));
+      //https://localhost:44314/WeatherForecast
+      var asJson1 = jsonEncode(request.toMap());
+      var response = await http.post(Uri.parse('https://10.0.2.2:44314/MealPlan'),body: asJson1, headers: {"Content-Type": "application/json"} );
+      currentUser.currentMealPlanJson = response.body;
+      currentUser.mealPlanStartDay = DateTime.now();
+      currentUser.save();
+    }
+
+    dynamic asJson = jsonDecode(currentUser.currentMealPlanJson!);
+    currentUser.resolvedMealPlan = FullMealPlan.fromMap(asJson);
   }
 
   @override
@@ -31,9 +77,7 @@ class _RootNavigationPageState extends State<RootNavigationPage> {
     } else if (_selectedIndex == 2) {
       body = RecipesPage();
     } else if (_selectedIndex == 3) {
-      body = Scaffold(
-          body:
-              Container(alignment: Alignment.center, child: Text("Settings")));
+      body = SettingsPage();
     } else {
       body = Scaffold(
           body: Container(alignment: Alignment.center, child: Text("Error")));
@@ -42,7 +86,11 @@ class _RootNavigationPageState extends State<RootNavigationPage> {
     Color selectedIconColor = MyColors.accentColor;
     Color iconColor = MyColors.grey;
 
-    return Column(children: [
+    return 
+    // WillPopScope(
+    //   onWillPop: _onWillPop,
+    //   child:
+      Column(children: [
       Expanded(child: body),
       Container(
           decoration: BoxDecoration(
@@ -87,6 +135,7 @@ class _RootNavigationPageState extends State<RootNavigationPage> {
             showUnselectedLabels: false,
             type: BottomNavigationBarType.fixed,
           ))
-    ]);
+        ]
+    );//);
   }
 }
