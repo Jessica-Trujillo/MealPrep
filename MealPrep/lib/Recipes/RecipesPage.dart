@@ -13,16 +13,18 @@ class RecipesPage extends StatefulWidget {
 class _RecipesPageState extends State<RecipesPage> {
   Widget buildChip(String title, Color backgroundColor) {
     return Chip(
-        labelPadding: EdgeInsets.all(4),
+        labelPadding: EdgeInsets.fromLTRB(13, 3, 13, 3),
         label: Text(title),
-        labelStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        labelStyle: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
         backgroundColor: backgroundColor);
   }
 
   Widget featuredMealCard(String mealTitle) {
     return Card(
-        margin: EdgeInsets.fromLTRB(20, 5, 0, 5),
-        color: MyColors.cardColor,
+        color: MyColors.lightGrey,
         child: new InkWell(
           onTap: () {
             var page = Recipe(recipeTitle: "Classic Hamburger");
@@ -35,8 +37,8 @@ class _RecipesPageState extends State<RecipesPage> {
               child: Column(
             children: [
               Container(
-                height: 167,
-                width: 167,
+                height: 162,
+                width: 162,
                 child: FittedBox(
                     fit: BoxFit.cover,
                     clipBehavior: Clip.hardEdge,
@@ -55,8 +57,7 @@ class _RecipesPageState extends State<RecipesPage> {
   Widget mealCard(String title, String calories, String mealTitle,
       String ingredient1, String ingredient2) {
     return Card(
-      margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
-      color: MyColors.cardColor,
+      color: MyColors.lightGrey,
       child: Container(
           child: Row(children: [
         Container(
@@ -107,31 +108,58 @@ class _RecipesPageState extends State<RecipesPage> {
           },
           child: const Icon(Icons.add),
           backgroundColor: MyColors.accentColor),
-      body: SingleChildScrollView(
-        child: Column(
+      body: Container(
+        margin: EdgeInsets.symmetric(horizontal: 25),
+        child: ListView(
           children: [
             Container(
-              margin: EdgeInsets.fromLTRB(20, 15, 20, 0),
+              margin: EdgeInsets.only(top: 25, bottom: 20),
+              height: 39,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: MyColors.lightGrey,
+              ),
+              child: Stack(children: [
+                Positioned(
+                    left: 10,
+                    top: 0,
+                    bottom: 0,
+                    child: Icon(
+                      Icons.search,
+                      color: MyColors.grey,
+                    )),
+                TextField(
+                    style: MyStyles.bodyText,
+                    decoration: InputDecoration(
+                      contentPadding:
+                          EdgeInsets.only(left: 40, right: 15, bottom: 8),
+                      border: InputBorder.none,
+                      hintText: "Search recipe",
+                    )),
+              ]),
+            ),
+            Container(
+              alignment: Alignment.bottomLeft,
               child: Wrap(
                 spacing: 8,
                 children: [
                   buildChip("My Recipes", Colors.blueGrey),
-                  buildChip("Vegan", Color(0xfff2b100)),
-                  buildChip("Keto", Color(0xfff2b100)),
-                  buildChip("Dairy-Free", Color(0xfff2b100)),
-                  buildChip("Glucose-Free", Color(0xfff2b100)),
-                  buildChip("Asian", Colors.green),
-                  buildChip("American", Colors.green),
-                  buildChip("Mexican", Colors.green),
+                  buildChip("Vegan", MyColors.yellow),
+                  buildChip("Keto", MyColors.yellow),
+                  buildChip("Dairy-Free", MyColors.yellow),
+                  buildChip("Glucose-Free", MyColors.yellow),
+                  buildChip("Asian", MyColors.green),
+                  buildChip("American", MyColors.green),
+                  buildChip("Mexican", MyColors.green),
                 ],
               ),
             ),
             Container(
+                margin: EdgeInsets.only(top: 20),
                 alignment: Alignment.bottomLeft,
-                margin: EdgeInsets.fromLTRB(25, 15, 0, 0),
                 child: Text('Featured', style: MyStyles.h1Text)),
             Container(
-              alignment: Alignment.center,
+              alignment: Alignment.centerLeft,
               child: Row(
                 children: [
                   featuredMealCard("Classic Hamburger"),
@@ -140,8 +168,8 @@ class _RecipesPageState extends State<RecipesPage> {
               ),
             ),
             Container(
+                margin: EdgeInsets.only(top: 20),
                 alignment: Alignment.bottomLeft,
-                margin: EdgeInsets.fromLTRB(25, 15, 0, 0),
                 child: Text('Recipes', style: MyStyles.h1Text)),
             Container(
               child: Column(

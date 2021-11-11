@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
       String ingredient1, String ingredient2) {
     return Card(
       margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
-      color: MyColors.cardColor,
+      color: MyColors.lightGrey,
       child: Container(
           child: Row(children: [
         Container(
