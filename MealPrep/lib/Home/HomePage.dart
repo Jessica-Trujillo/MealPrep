@@ -25,64 +25,58 @@ class _HomePageState extends State<HomePage> {
     _selectedDate = DateTime.now();
   }
 
-  String hourAndMinuteToTime(int hour, int minute){
+  String hourAndMinuteToTime(int hour, int minute) {
     String minutePart = minute.toString();
-    if (minutePart.length == 1)
-      minutePart = "0" + minutePart;
+    if (minutePart.length == 1) minutePart = "0" + minutePart;
 
-    if (hour > 12){
+    if (hour > 12) {
       return (hour - 12).toString() + ":" + minutePart + " PM";
     }
     return hour.toString() + ":" + minutePart + " AM";
   }
 
-
 // TODO: MealPhotoPath
 // Pass meal image path as parameter into method
   Widget buildCard(String title, String calories, String mealTitle,
       String ingredient1, String ingredient2) {
-    return Card(
+    return Container(
       margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
-      color: MyColors.lightGrey,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10), color: MyColors.lightGrey),
       child: Container(
-          child: Row(
-            
-            children: [
+          child: Row(children: [
         Container(
             height: 125,
             width: 125,
             child: FittedBox(
               fit: BoxFit.cover,
               clipBehavior: Clip.hardEdge,
-              child: Image.asset("images/backgroundImage.png"), 
+              child: Image.asset("images/backgroundImage.png"),
               // TODO: MealPhotoPath
               // Replace Image.asset with image from url;  Image.asset reads from your asset folder, you will need to reserach how to do this from url
               // the url will be the parameter passed into method
             )),
-        Expanded(child: 
-          Container(
-              margin: EdgeInsets.fromLTRB(15, 10, 0, 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  FittedBox(
-                      child: Text(title,
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xff333333)))),
-                  FittedBox(
-                      child:
-                          Text(calories + " Calories", style: MyStyles.bodyText)),
-                  
-                  Text(mealTitle, style: MyStyles.bodyText),
-                  Divider(color: Colors.black, thickness: 1),
-                  Text(ingredient1, style: MyStyles.bodyText),
-                  Text(ingredient2, style: MyStyles.bodyText),
-                ],
-              )
-            )
-         )
+        Expanded(
+            child: Container(
+                margin: EdgeInsets.fromLTRB(15, 10, 0, 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    FittedBox(
+                        child: Text(title,
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xff333333)))),
+                    FittedBox(
+                        child: Text(calories + " Calories",
+                            style: MyStyles.bodyText)),
+                    Text(mealTitle, style: MyStyles.bodyText),
+                    Divider(color: Colors.black, thickness: 1),
+                    Text(ingredient1, style: MyStyles.bodyText),
+                    Text(ingredient2, style: MyStyles.bodyText),
+                  ],
+                )))
       ])),
     );
   }
@@ -116,40 +110,42 @@ class _HomePageState extends State<HomePage> {
       locale: 'en',
     );
 
-    var mealsForDay = CurrentSession.currentProfile.resolvedMealPlan?.meals?.where((element) => element.day == 0);
+    var mealsForDay = CurrentSession.currentProfile.resolvedMealPlan?.meals
+        ?.where((element) => element.day == 0);
     List<Widget> mealCards = [];
-    if (mealsForDay != null){
-      for(var meal in mealsForDay){
-        mealCards.add(
-          buildCard(hourAndMinuteToTime(meal.hour!, meal.minute!), 
-                    meal.meal?.calorieCounter?.toString() ?? "Unknown", 
-                    meal.meal?.name ?? "Unknown", 
-                    "1 cup whole milk",
-                    "1 cup frosted flakes")
-        );
-      } 
+    if (mealsForDay != null) {
+      for (var meal in mealsForDay) {
+        mealCards.add(buildCard(
+            hourAndMinuteToTime(meal.hour!, meal.minute!),
+            meal.meal?.calorieCounter?.toString() ?? "Unknown",
+            meal.meal?.name ?? "Unknown",
+            "1 cup whole milk",
+            "1 cup frosted flakes"));
+      }
     }
 
     return Scaffold(
       appBar: AppBar(
+        titleSpacing: 25,
         backgroundColor: MyColors.accentColor,
         title: const Text('Home'),
       ),
-      body: Column(
-        children: [
-          Container(
-              alignment: Alignment.bottomLeft,
-              margin: EdgeInsets.fromLTRB(25, 15, 0, 0),
-              child: Text('Weekly Overview', style: MyStyles.h1Text)),
-          _calendarTimeline,
-          Container(
-              alignment: Alignment.bottomLeft,
-              margin: EdgeInsets.fromLTRB(25, 15, 0, 0),
-              child: Text('Meals for Today', style: MyStyles.h1Text)),
-          Expanded(
-              child: Column(children: mealCards
-              ))
-        ],
+      body: Container(
+        child: ListView(
+          physics: BouncingScrollPhysics(),
+          children: <Widget>[
+            Container(
+                alignment: Alignment.bottomLeft,
+                margin: EdgeInsets.fromLTRB(25, 15, 0, 0),
+                child: Text('Weekly Overview', style: MyStyles.h1Text)),
+            _calendarTimeline,
+            Container(
+                alignment: Alignment.bottomLeft,
+                margin: EdgeInsets.fromLTRB(25, 15, 0, 0),
+                child: Text('Meals for Today', style: MyStyles.h1Text)),
+            Column(children: mealCards),
+          ],
+        ),
       ),
     );
   }

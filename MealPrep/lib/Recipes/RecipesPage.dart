@@ -23,50 +23,71 @@ class _RecipesPageState extends State<RecipesPage> {
   }
 
   Widget featuredMealCard(String mealTitle) {
-    return Card(
-        color: MyColors.lightGrey,
-        child: new InkWell(
-          onTap: () {
-            var page = Recipe(recipeTitle: "Classic Hamburger");
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => page),
-            ).then((value) => setState(() {}));
-          },
-          child: Container(
-              child: Column(
+    return Container(
+      margin: EdgeInsets.only(right: 15),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10), color: MyColors.lightGrey),
+      child: new InkWell(
+        onTap: () {
+          var page = Recipe(recipeTitle: "Classic Hamburger");
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => page),
+          ).then((value) => setState(() {}));
+        },
+        child: Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                height: 162,
-                width: 162,
-                child: FittedBox(
+                height: 160,
+                width: 160,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+                  child: FittedBox(
                     fit: BoxFit.cover,
                     clipBehavior: Clip.hardEdge,
-                    child: Image.asset("images/backgroundImage.png")),
+                    child: Image.asset("images/backgroundImage.png"),
+                  ),
+                ),
               ),
               Container(
-                  margin: EdgeInsets.all(10),
-                  child: Text(mealTitle,
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16)))
+                width: 145,
+                margin: EdgeInsets.only(left: 10, right: 5, top: 10),
+                child: Text(
+                  mealTitle,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+              )
             ],
-          )),
-        ));
+          ),
+        ),
+      ),
+    );
   }
 
   Widget mealCard(String title, String calories, String mealTitle,
       String ingredient1, String ingredient2) {
-    return Card(
-      color: MyColors.lightGrey,
+    return Container(
+      margin: EdgeInsets.only(bottom: 18),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10), color: MyColors.lightGrey),
       child: Container(
           child: Row(children: [
         Container(
             height: 125,
             width: 125,
-            child: FittedBox(
-              fit: BoxFit.cover,
-              clipBehavior: Clip.hardEdge,
-              child: Image.asset("images/backgroundImage.png"),
+            child: ClipRRect(
+              borderRadius: BorderRadius.horizontal(left: Radius.circular(10)),
+              child: FittedBox(
+                fit: BoxFit.cover,
+                clipBehavior: Clip.hardEdge,
+                child: Image.asset("images/backgroundImage.png"),
+              ),
             )),
         Container(
             margin: EdgeInsets.fromLTRB(15, 0, 0, 0),
@@ -95,6 +116,7 @@ class _RecipesPageState extends State<RecipesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        titleSpacing: 25,
         backgroundColor: MyColors.accentColor,
         title: const Text('Recipes'),
       ),
@@ -109,11 +131,12 @@ class _RecipesPageState extends State<RecipesPage> {
           child: const Icon(Icons.add),
           backgroundColor: MyColors.accentColor),
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 25),
+        margin: EdgeInsets.only(left: 25),
         child: ListView(
-          children: [
+          physics: BouncingScrollPhysics(),
+          children: <Widget>[
             Container(
-              margin: EdgeInsets.only(top: 25, bottom: 20),
+              margin: EdgeInsets.only(top: 25, right: 25, bottom: 20),
               height: 39,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
@@ -139,6 +162,7 @@ class _RecipesPageState extends State<RecipesPage> {
               ]),
             ),
             Container(
+              margin: EdgeInsets.only(right: 25),
               alignment: Alignment.bottomLeft,
               child: Wrap(
                 spacing: 8,
@@ -159,19 +183,25 @@ class _RecipesPageState extends State<RecipesPage> {
                 alignment: Alignment.bottomLeft,
                 child: Text('Featured', style: MyStyles.h1Text)),
             Container(
-              alignment: Alignment.centerLeft,
-              child: Row(
-                children: [
-                  featuredMealCard("Classic Hamburger"),
-                  featuredMealCard("Steaks")
+              height: 240,
+              child: ListView(
+                physics: BouncingScrollPhysics(),
+                padding: EdgeInsets.only(right: 8),
+                scrollDirection: Axis.horizontal,
+                children: <Widget>[
+                  featuredMealCard("Classic Hamburger With Caesar Salad"),
+                  featuredMealCard("Steaks"),
+                  featuredMealCard("Steaks"),
+                  featuredMealCard("Steaks"),
                 ],
               ),
             ),
             Container(
                 margin: EdgeInsets.only(top: 20),
                 alignment: Alignment.bottomLeft,
-                child: Text('Recipes', style: MyStyles.h1Text)),
+                child: Text('Recent', style: MyStyles.h1Text)),
             Container(
+              margin: EdgeInsets.only(right: 25),
               child: Column(
                 children: [
                   mealCard("Breakfast", "422", "Frosted Flakes",

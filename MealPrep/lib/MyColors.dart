@@ -4,7 +4,7 @@ class MyColors {
   static const Color accentColor = Color(0xffe46060);
   static const Color green = Colors.green;
   static const Color yellow = Color(0xfff2b100);
-  static const Color lightGrey = Color(0xfff4f4f4);
+  static const Color lightGrey = Color(0xfff3f3f3);
   static const Color grey = Colors.grey;
   static const Color black = Color(0xff333333);
 }

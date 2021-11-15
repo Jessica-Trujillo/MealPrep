@@ -57,42 +57,51 @@ class _CalendarDayPageState extends State<CalendarDayPage> {
   Widget buildCard(String title, String calories, String mealTitle,
       String ingredient1, String ingredient2) {
     return Container(
-      margin: EdgeInsets.all(15),
-      color: MyColors.accentColor,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10), color: MyColors.lightGrey),
+      margin: EdgeInsets.fromLTRB(25, 0, 25, 10),
       child: Container(
-          margin: EdgeInsets.fromLTRB(20, 20, 20, 20),
           child: Row(children: [
-            Container(
-                height: 180,
-                width: 200,
-                child: FittedBox(
-                  fit: BoxFit.cover,
-                  clipBehavior: Clip.hardEdge,
-                  child: Image.asset("images/backgroundImage.png"),
-                )),
-            Container(
-                margin: EdgeInsets.all(5),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    FittedBox(
-                        child: Text(title,
-                            style:
-                                TextStyle(fontSize: 20, color: Colors.white))),
-                    FittedBox(
-                        child: Text(calories + " Calories",
-                            style:
-                                TextStyle(fontSize: 16, color: Colors.white))),
-                    FittedBox(
-                        child: Text(mealTitle,
-                            style:
-                                TextStyle(fontSize: 16, color: Colors.white))),
-                    Divider(color: Colors.black, thickness: 3),
-                    Text(ingredient1, style: TextStyle(color: Colors.white)),
-                    Text(ingredient2, style: TextStyle(color: Colors.white))
-                  ],
-                ))
-          ])),
+        Container(
+            height: 150,
+            width: 150,
+            child: ClipRRect(
+              borderRadius: BorderRadius.horizontal(left: Radius.circular(10)),
+              child: FittedBox(
+                fit: BoxFit.cover,
+                clipBehavior: Clip.hardEdge,
+                child: Image.asset("images/backgroundImage.png"),
+              ),
+            )),
+        Container(
+            margin: EdgeInsets.all(5),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                FittedBox(
+                    child: Text(title,
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Color(
+                              0xff333333,
+                            )))),
+                FittedBox(
+                    child:
+                        Text(calories + " Calories", style: MyStyles.bodyText)),
+                FittedBox(
+                  child: Text(
+                    mealTitle,
+                    style: MyStyles.bodyText,
+                  ),
+                ),
+                Divider(color: Colors.black, thickness: 3),
+                Text(ingredient1, style: MyStyles.bodyText),
+                Text(ingredient2, style: MyStyles.bodyText)
+              ],
+            ))
+      ])),
     );
   }
 
@@ -107,7 +116,7 @@ class _CalendarDayPageState extends State<CalendarDayPage> {
     if (profile.goodDays.any((element) =>
         element.day == this.widget.trackedDay.day &&
         element.month == this.widget.trackedDay.month)) {
-      goodDayColor = Colors.green;
+      goodDayColor = MyColors.green;
     } else {
       goodDayColor = Colors.grey[800]!;
     }
@@ -116,7 +125,7 @@ class _CalendarDayPageState extends State<CalendarDayPage> {
     if (profile.badDays.any((element) =>
         element.day == this.widget.trackedDay.day &&
         element.month == this.widget.trackedDay.month)) {
-      badDayColor = Colors.red;
+      badDayColor = MyColors.accentColor;
     } else {
       badDayColor = Colors.grey[800]!;
     }
@@ -124,27 +133,27 @@ class _CalendarDayPageState extends State<CalendarDayPage> {
 
     return Scaffold(
       appBar: AppBar(
+        titleSpacing: 25,
         backgroundColor: MyColors.accentColor,
         title: Text(selectedDateStr),
       ),
       body: Column(children: [
         Container(
-          margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
-          alignment: Alignment.center,
+          margin: EdgeInsets.fromLTRB(25, 25, 25, 10),
+          alignment: Alignment.centerLeft,
           child: Text(
             selectedDateStr + " Meal Plan",
-            style: TextStyle(fontSize: 30),
+            style: MyStyles.h1Text,
           ),
         ),
         Expanded(
-            child: SingleChildScrollView(
-                child: Column(children: [
+            child: ListView(physics: BouncingScrollPhysics(), children: [
           buildCard("Breakfast", "422", "Frosted Flakes", "1 cup whole milk",
               "1 cup frosted flakes"),
           buildCard(
               "Lunch", "360", "Sandwich", "2 slices bread", "1 cup cheese"),
           buildCard("Dinner", "500", "Steaks", "1 cup steak", "5 lb potato"),
-        ]))),
+        ])),
         Container(
             margin: EdgeInsets.symmetric(vertical: 25),
             child: Row(
