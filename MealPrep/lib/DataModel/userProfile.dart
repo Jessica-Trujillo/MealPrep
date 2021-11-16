@@ -1,4 +1,5 @@
 
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,6 +7,58 @@ import 'package:foodplanapp/main.dart';
 
 class UserProfile {
  
+  
+  int getCalorieGoal(){
+    if (heightInInches == null)
+      return 2000;
+    if (gender == null)
+      return 2000;
+    if (weightGoal == null)
+      return 2000;
+    if (weightGoalRate == null)
+      return 2000;
+    if (currentWeight == null)
+      return 2000;
+    if (birthday == null)
+      return 2000;
+
+    var age = DateTime.now().difference(birthday!).inDays / 365;
+
+    double bmr;
+    if (gender == "Male"){
+      bmr = (66 + (6.3*currentWeight!) + (12.9 * heightInInches!) - (6.8 * age));
+    }
+    else{
+      bmr = (655 + (4.3*currentWeight!) + (4.7 * heightInInches!) - (4.7 * age));
+    }
+
+    int baseCalories = (bmr * 1.5).toInt();
+
+    if (weightGoal == "Lose"){
+      if (weightGoalRate == "1/2 lb"){
+        return max(baseCalories - 500, 100);
+      }
+      else if (weightGoalRate == "1 lb"){
+        return max(baseCalories - 1000, 100);
+      }
+      else if (weightGoalRate == "1.5 lbs"){
+        return max(baseCalories - 1500, 100);
+      }
+    }
+    else if (weightGoal == "Gain"){
+      if (weightGoalRate == "1/2 lb"){
+        return baseCalories + 500;
+      }
+      else if (weightGoalRate == "1 lb"){
+        return baseCalories + 1000;
+      }
+      else if (weightGoalRate == "1.5 lbs"){
+        return baseCalories + 1500;
+      }
+    }
+    return baseCalories;
+  }
+
   bool finsihedRegistration;
 
   String username;

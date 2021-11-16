@@ -10,6 +10,8 @@ import 'package:foodplanapp/Settings/SettingsPage.dart';
 
 import 'package:http/http.dart' as http;
 
+import 'APIInterface.dart';
+
 class RootNavigationPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -39,32 +41,17 @@ class _RootNavigationPageState extends State<RootNavigationPage> {
   Future<bool> _onWillPop() async {
     return false;
   }
+
+
+
   void ensureMealPlan() async {
-    var currentUser = CurrentSession.currentProfile;
-    if (currentUser.currentMealPlanJson == null) {
-      var request = Request(calorieGoal: 1700, 
-                          numOfDays: 7, 
-                          weeklyBudget: 500, 
-                          blacklist: ["C"], 
-                          carbPercentage: 30, 
-                          fatPercentage: 40, 
-                          proteinPercentage: 30, 
-                          dietaryRestrictions: ["B"], 
-                          favorites: ["A"],
-                          recent: ["D"]);
+    await APIInterface.ensureMealPlan();
 
+    setState(() {
+      
+    });
+    
 
-      //var response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/albums/1'));
-      //https://localhost:44314/WeatherForecast
-      var asJson1 = jsonEncode(request.toMap());
-      var response = await http.post(Uri.parse('https://10.0.2.2:44314/MealPlan'),body: asJson1, headers: {"Content-Type": "application/json"} );
-      currentUser.currentMealPlanJson = response.body;
-      currentUser.mealPlanStartDay = DateTime.now();
-      currentUser.save();
-    }
-
-    dynamic asJson = jsonDecode(currentUser.currentMealPlanJson!);
-    currentUser.resolvedMealPlan = FullMealPlan.fromMap(asJson);
   }
 
   @override

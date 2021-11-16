@@ -226,12 +226,18 @@ void main() {
         else if (entry.key == "quantity"){
           ing.quantity = entry.value.toString();
         }
+        else if (entry.key == "ingredient"){
+          ing.ingredient = Ingredient.fromMap(entry.value);
+        }
       }
 
       return ing;
     }
     int? ingredientId;
     String? quantity;
+
+
+    Ingredient? ingredient;
   }
 
   class StoreIngredient

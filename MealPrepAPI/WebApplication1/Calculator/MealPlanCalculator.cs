@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApplication1.Queries;
 
 namespace WebApplication1.Controllers
 {
@@ -38,27 +39,7 @@ namespace WebApplication1.Controllers
 
       // Retrieve all rows
 
-
-      String query = 
-@"SELECT ""Id"", ""name"", ""recipe"", ""totalPrepTime"", ""totalCookTime"", ""minutesNeededBeforeMeal"", ""calorieCounter"", ""costInPennies"", 
-    ""carbPercent"", ""fatPercent"", ""proteinPercent"", ""photoPath"", ""mealType""
-FROM ""Meals""
-WHERE ""calorieCounter"" > " + calorieGoalMin + @" and ""calorieCounter"" < " + calorieGoalMax + @" and ""mealType"" = " + mealType;
-
-      List<Meal> meals = new List<Meal>();
-      await using (var cmd = new NpgsqlCommand(query, conn))
-      {
-        await using (var reader = await cmd.ExecuteReaderAsync())
-        {
-          while (await reader.ReadAsync())
-          {
-            var newMeal = new Meal(reader);
-
-            meals.Add(newMeal);
-
-          }
-        }
-      }
+      var meals = await MealQueries.GetMealsWithBetweenCalories(conn, calorieGoalMin, calorieGoalMax, mealType);
 
       if (meals.Count == 0)
       {
@@ -70,6 +51,8 @@ WHERE ""calorieCounter"" > " + calorieGoalMin + @" and ""calorieCounter"" < " + 
       int randomMealIndex = rand.Next(0, meals.Count);
 
       var foundMeal = meals[randomMealIndex];
+
+      await foundMeal.ResolveIngredientInstances(conn);
 
       String ingredientInstanceQuery = 
 @"SELECT ""MealId"", ""IngrInstanceId""
@@ -87,8 +70,6 @@ WHERE ""MealId"" = " + foundMeal.Id;
             instanceIds.Add(idToAdd);    
           }
         }
-
-
       }
 
       List<IngredientInstance> mealIngedients = new List<IngredientInstance>();
@@ -121,40 +102,6 @@ WHERE ""Id"" = " + id;
     }
 
 
-    private async Task<List<Ingredient>> GetIngredientsFromIds(List<int> ingredientIds)
-    {
-      var connString = "Host=127.0.0.1;Username=postgres;Password=Jt680355;Database=mealPrepDB";
-      var conn = new NpgsqlConnection(connString);
-
-      await conn.OpenAsync();
-
-      List<Ingredient> returnList = new List<Ingredient>();
-
-      foreach (int id in ingredientIds)
-      {
-String ingQuery =
-@"SELECT ""Id"", name, calories, ""quantityForCalorie"", ""expirationTimeInDays""
-FROM public.""Ingredient""
-WHERE ""Id"" = " + id;
-
-
-        await using (var cmd = new NpgsqlCommand(ingQuery, conn))
-        {
-          await using (var reader = await cmd.ExecuteReaderAsync())
-          {
-            while (await reader.ReadAsync())
-            {
-              returnList.Add(new Ingredient(reader));
-
-            }
-          }
-        }
-
-      }
-      await conn.CloseAsync();
-
-      return returnList;
-    }
 
 
     private async Task<FullMealPlan> DoGetFullMealPlanFromRequest(Request request)
@@ -203,11 +150,28 @@ WHERE ""Id"" = " + id;
                                    .Select(a => a.ingredientId)
                                    .Distinct()
                                    .ToList();
-      var ingredients = await GetIngredientsFromIds(ingredientIds);
+
+
+      var connString = "Host=127.0.0.1;Username=postgres;Password=Jt680355;Database=mealPrepDB";
+      var conn = new NpgsqlConnection(connString);
+
+      await conn.OpenAsync();
+
+      foreach (var instance in mealTimes.SelectMany(a => a.meal.ingredients))
+      {
+        await instance.ResolveIngredient(conn);
+      }
+
+      var ingredients = mealTimes.SelectMany(a => a.meal.ingredients.Select(a => a.ingredient))
+                                 .GroupBy(a => a.id)
+                                 .Select(a => a.FirstOrDefault())
+                                 .ToArray();
+
+      await conn.CloseAsync();
 
       return new FullMealPlan()
       {
-        IngredientsNeeded = ingredients.ToArray(),
+        IngredientsNeeded = ingredients,
         Meals = mealTimes.ToArray()
       };
     }

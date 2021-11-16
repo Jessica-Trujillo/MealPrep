@@ -1,5 +1,7 @@
 ﻿using Npgsql;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace WebApplication1.Controllers
 {
@@ -23,10 +25,52 @@ namespace WebApplication1.Controllers
 
     public String MealType { get; set; }
 
-    public async void ResolveIngredientInstances()
+    public async Task ResolveIngredientInstances(NpgsqlConnection connection)
     {
 
+      String ingredientInstanceQuery =
+@"SELECT ""MealId"", ""IngrInstanceId""
+FROM ""MealIngredients""
+WHERE ""MealId"" = " + Id;
+
+      List<int> instanceIds = new List<int>();
+      await using (var cmd = new NpgsqlCommand(ingredientInstanceQuery, connection))
+      {
+        await using (var reader = await cmd.ExecuteReaderAsync())
+        {
+          while (await reader.ReadAsync())
+          {
+            int idToAdd = reader.GetInt32(1);
+            instanceIds.Add(idToAdd);
+          }
+        }
+      }
+
+      List<IngredientInstance> mealIngedients = new List<IngredientInstance>();
+
+      foreach (var id in instanceIds)
+      {
+        String idQuery =
+@"SELECT ""Id"", ""IngredientId"", ""Quantity""
+FROM ""IngredientInstance""
+WHERE ""Id"" = " + id;
+
+        await using (var cmd = new NpgsqlCommand(idQuery, connection))
+        {
+          await using (var reader = await cmd.ExecuteReaderAsync())
+          {
+            while (await reader.ReadAsync())
+            {
+              mealIngedients.Add(new IngredientInstance(reader));
+            }
+          }
+        }
+
+      }
+
+      ingredients = mealIngedients.ToArray();
     }
+
 
     public Meal()
     {
