@@ -20,10 +20,8 @@ class MealCard extends StatefulWidget{
 
 class _MealCardState extends State<MealCard>{
 
-  
-
   void cardTapped(Meal meal){
-    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Recipe(meal: meal)));    
+    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> RecipeNew(meal: meal)));    
   }
 
   Widget buildCard(Meal meal, String title, String calories, String mealTitle,
