@@ -151,12 +151,6 @@ class LoginPageState extends State<LoginPage> {
     showPopup();
   }
 
-  void onRegistrationClicked() {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-      return RegistrationPage();
-    }));
-  }
-
   @override
   Widget build(BuildContext context) {
     if (isLoggingIn) {
@@ -212,28 +206,14 @@ class LoginPageState extends State<LoginPage> {
         body: Stack(
           fit: StackFit.expand,
           children: [
-            Container(
-              child: FittedBox(
-                fit: BoxFit.cover,
-                child: Image.asset("images/backgroundImage.png"),
-              ),
-            ),
             Column(
               children: [
                 Container(height: 50),
-                Container(
-                    alignment: Alignment.center,
-                    child: Text("Meal Prep'd",
-                        style: TextStyle(
-                            fontSize: 40,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w400))),
                 Container(height: 10),
                 Container(
                   margin: EdgeInsets.fromLTRB(12, 0, 0, 5),
                   alignment: Alignment.bottomLeft,
-                  child: Text("Email",
-                      style: TextStyle(fontSize: 16, color: Colors.white)),
+                  child: Text("Email", style: MyStyles.bodyText),
                 ),
                 Container(
                   margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -245,8 +225,7 @@ class LoginPageState extends State<LoginPage> {
                 Container(
                   margin: EdgeInsets.fromLTRB(12, 0, 0, 5),
                   alignment: Alignment.bottomLeft,
-                  child: Text("Password",
-                      style: TextStyle(fontSize: 16, color: Colors.white)),
+                  child: Text("Password", style: MyStyles.bodyText),
                 ),
                 Container(
                   margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -263,19 +242,11 @@ class LoginPageState extends State<LoginPage> {
                     onPressed: forgotPasswordClicked,
                     child: Stack(
                       children: [
-                        Text('Forgot Password',
-                            style: TextStyle(
-                              fontSize: 15, // color: Colors.white,
-                              foreground: Paint()
-                                ..style = PaintingStyle.stroke
-                                ..strokeWidth = 3
-                                ..color = Colors.black,
-                            )),
                         Text(
-                          'Forgot Password',
+                          'Forgot Password?',
                           style: TextStyle(
                             fontSize: 15,
-                            color: Colors.blue[300],
+                            color: MyColors.accentColor,
                           ),
                         )
                       ],
@@ -284,43 +255,18 @@ class LoginPageState extends State<LoginPage> {
                 ),
                 Container(height: 20),
                 Container(
-                    width: 150,
-                    height: 45,
-                    child: ElevatedButton(
-                        onPressed: loginClicked,
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.lightGreen[200],
-                        ),
-                        child: Text("Log in",
-                            style:
-                                TextStyle(fontSize: 16, color: Colors.black)))),
-                Container(
-                    margin: EdgeInsets.all(10),
-                    child: Stack(children: [
-                      Text('or',
-                          style: TextStyle(
-                            fontSize: 15, // color: Colors.white,
-                            foreground: Paint()
-                              ..style = PaintingStyle.stroke
-                              ..strokeWidth = 3
-                              ..color = Colors.grey[700]!,
-                          )),
-                      Text('or',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.white,
-                          ))
-                    ])),
-                Container(
                   width: 150,
                   height: 45,
                   child: ElevatedButton(
-                      onPressed: onRegistrationClicked,
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.amber[100],
-                      ),
-                      child: Text('Register',
-                          style: TextStyle(fontSize: 16, color: Colors.black))),
+                    onPressed: loginClicked,
+                    style: ElevatedButton.styleFrom(
+                      primary: MyColors.accentColor,
+                    ),
+                    child: Text(
+                      "Log in",
+                      style: TextStyle(fontSize: 16, color: Colors.black),
+                    ),
+                  ),
                 ),
                 Container(height: 10),
                 errorWidget,
