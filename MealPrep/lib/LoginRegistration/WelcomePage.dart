@@ -82,6 +82,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       child: ElevatedButton(
                         onPressed: onSignUpClicked,
                         style: ElevatedButton.styleFrom(
+                            elevation: 0,
                             padding: EdgeInsets.symmetric(vertical: 15),
                             primary: MyColors.accentColor),
                         child: Text("Sign up"),
