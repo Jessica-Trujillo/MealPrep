@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:foodplanapp/LoginRegistration/WelcomePage.dart';
 import 'package:foodplanapp/LoginRegistration/LoginPage.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -155,13 +154,15 @@ class Meal {
         meal.fatPercent = double.parse(entry.value.toString());
       } else if (entry.key == "proteinPercent") {
         meal.proteinPercent = double.parse(entry.value.toString());
-      } else if (entry.key == "tags") {
+      } else if (entry.key == "tags" && entry.value is List<dynamic>) {
         List<String> tagStr = [];
         List<dynamic> tags = entry.value;
         for (var tag in tags) {
           tagStr.add(tag.toString());
         }
         meal.tags = tagStr;
+      } else if (entry.key == "photoPath") {
+        meal.photoPath = entry.value.toString();
       }
     }
 
@@ -180,6 +181,7 @@ class Meal {
   double? fatPercent;
   double? proteinPercent;
   List<String>? tags;
+  String? photoPath;
 
   // TODO: MealPhotoPath
   // Add Image path property, name this the same as in API
@@ -194,6 +196,8 @@ class IngredientInstance {
         ing.ingredientId = int.parse(entry.value.toString());
       } else if (entry.key == "quantity") {
         ing.quantity = entry.value.toString();
+      } else if (entry.key == "ingredient") {
+        ing.ingredient = Ingredient.fromMap(entry.value);
       }
     }
 
@@ -202,6 +206,8 @@ class IngredientInstance {
 
   int? ingredientId;
   String? quantity;
+
+  Ingredient? ingredient;
 }
 
 class StoreIngredient {
@@ -244,14 +250,15 @@ class Ingredient {
         ing.calories = double.parse(entry.value.toString());
       } else if (entry.key == "quantityForCalorie") {
         ing.quantityForCalorie = entry.value.toString();
-      } else if (entry.key == "storeIngredients") {
+      } else if (entry.key == "storeIngredients" &&
+          entry.value is List<dynamic>) {
         List<dynamic> list = entry.value;
         List<StoreIngredient> storeIng = [];
         for (var item in list) {
           storeIng.add(StoreIngredient.fromMap(item));
         }
         ing.storeIngredients = storeIng;
-      } else if (entry.key == "tags") {
+      } else if (entry.key == "tags" && entry.value is List<dynamic>) {
         List<dynamic> list = entry.value;
         List<String> tags = [];
         for (var item in list) {
@@ -295,7 +302,7 @@ class MyAppState extends State<MyApp> {
     await Firebase.initializeApp();
     setState(() {
       isInitialized = true;
-      mainPage = WelcomePage();
+      mainPage = LoginPage();
     });
   }
 
