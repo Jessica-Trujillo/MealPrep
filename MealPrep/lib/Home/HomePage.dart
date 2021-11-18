@@ -48,13 +48,16 @@ class _HomePageState extends State<HomePage> {
         Container(
             height: 125,
             width: 125,
-            child: FittedBox(
-              fit: BoxFit.cover,
-              clipBehavior: Clip.hardEdge,
-              child: Image.asset("images/backgroundImage.png"),
-              // TODO: MealPhotoPath
-              // Replace Image.asset with image from url;  Image.asset reads from your asset folder, you will need to reserach how to do this from url
-              // the url will be the parameter passed into method
+            child: ClipRRect(
+              borderRadius: BorderRadius.horizontal(left: Radius.circular(10)),
+              child: FittedBox(
+                fit: BoxFit.cover,
+                clipBehavior: Clip.hardEdge,
+                child: Image.asset("images/backgroundImage.png"),
+                // TODO: MealPhotoPath
+                // Replace Image.asset with image from url;  Image.asset reads from your asset folder, you will need to reserach how to do this from url
+                // the url will be the parameter passed into method
+              ),
             )),
         Expanded(
             child: Container(
@@ -72,7 +75,9 @@ class _HomePageState extends State<HomePage> {
                         child: Text(calories + " Calories",
                             style: MyStyles.bodyText)),
                     Text(mealTitle, style: MyStyles.bodyText),
-                    Divider(color: Colors.black, thickness: 1),
+                    Container(
+                        margin: EdgeInsets.only(right: 10),
+                        child: Divider(color: Colors.black, thickness: 1)),
                     Text(ingredient1, style: MyStyles.bodyText),
                     Text(ingredient2, style: MyStyles.bodyText),
                   ],

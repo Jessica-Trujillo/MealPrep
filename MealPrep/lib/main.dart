@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:foodplanapp/LoginRegistration/LoginPage.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:foodplanapp/LoginRegistration/WelcomePage.dart';
 
 void main() {
   HttpOverrides.global = new MyHttpOverrides();
@@ -302,7 +303,7 @@ class MyAppState extends State<MyApp> {
     await Firebase.initializeApp();
     setState(() {
       isInitialized = true;
-      mainPage = LoginPage();
+      mainPage = WelcomePage();
     });
   }
 

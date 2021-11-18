@@ -190,9 +190,9 @@ class _RecipesPageState extends State<RecipesPage> {
                 scrollDirection: Axis.horizontal,
                 children: <Widget>[
                   featuredMealCard("Classic Hamburger With Caesar Salad"),
-                  featuredMealCard("Steaks"),
-                  featuredMealCard("Steaks"),
-                  featuredMealCard("Steaks"),
+                  featuredMealCard("Egg, Bacon, And Avocado Muffin"),
+                  featuredMealCard("Banana Nut Oatmeal"),
+                  featuredMealCard("BLT Sandwich"),
                 ],
               ),
             ),
