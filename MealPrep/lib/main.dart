@@ -347,7 +347,7 @@ class MyAppState extends State<MyApp>{
     await Firebase.initializeApp();
     setState(() {
       isInitialized = true;
-      mainPage = LoginPage();
+      mainPage = WelcomePage();
     });
   }
 
