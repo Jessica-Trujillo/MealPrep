@@ -12,7 +12,7 @@ class APIInterface {
     var currentUser = CurrentSession.currentProfile;
     var timeGenerated = CurrentSession.currentProfile.mealPlanStartDay;
     var today = DateTime.now();
-    if (currentUser.currentMealPlanJson == null || (timeGenerated != null && timeGenerated.difference(today).inDays < -7) ) {
+    if (currentUser.currentMealPlanJson == null || (timeGenerated == null) || (timeGenerated.difference(today).inDays < -7) ) {
 
 
       var request = Request(calorieGoal: currentUser.getCalorieGoal(), 
