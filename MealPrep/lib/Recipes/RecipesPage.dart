@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:foodplanapp/APIInterface.dart';
 import 'package:foodplanapp/MyColors.dart';
-import 'package:foodplanapp/Recipes/AddRecipe.dart';
 import 'package:foodplanapp/Recipes/Recipe.dart';
 import 'package:foodplanapp/main.dart';
 
@@ -13,19 +11,96 @@ class RecipesPage extends StatefulWidget {
   }
 }
 
+enum TagCategories {
+  Ethnicity,
+  Dietary,
+  Other
+}
+
+
+class TagFilter{
+  String tagName;
+  late String displayName;
+  TagCategories tagCategory;
+
+  TagFilter({required this.tagName, required this.tagCategory}){
+    displayName = tagName;
+  }
+  TagFilter.withDisplayName({required this.tagName, required this.displayName, required this.tagCategory});
+}
+
+Color getColorForTag(TagFilter tag) {
+  switch (tag.tagCategory){
+    case TagCategories.Dietary:
+      return MyColors.yellow;
+    case TagCategories.Ethnicity:
+      return MyColors.green;
+    case TagCategories.Other:
+      return MyColors.grey;
+  }
+}
+
+List<TagFilter> tagFilters = [
+  TagFilter(tagName: "Vegan", tagCategory: TagCategories.Dietary),
+  TagFilter(tagName: "Dairy", tagCategory: TagCategories.Dietary),
+  TagFilter(tagName: "Dairy-Free", tagCategory: TagCategories.Dietary),
+  TagFilter(tagName: "Glucose-Free", tagCategory: TagCategories.Dietary),
+  TagFilter(tagName: "Asian", tagCategory: TagCategories.Ethnicity),
+  TagFilter(tagName: "American", tagCategory: TagCategories.Ethnicity),
+  TagFilter(tagName: "Mexican", tagCategory: TagCategories.Ethnicity),
+];
+
 class _RecipesPageState extends State<RecipesPage> {
-  Widget buildChip(String title, Color backgroundColor) {
-    return Chip(
-        labelPadding: EdgeInsets.fromLTRB(13, 3, 13, 3),
-        label: Text(title),
-        labelStyle: TextStyle(
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-        ),
-        backgroundColor: backgroundColor);
+
+  TextEditingController searchController = TextEditingController();
+
+  void performSearch() async {
+    if (selectedTagFilter == null && searchController.text.isEmpty){
+      setState(() {
+        mealsFromSearch = null;
+      });
+      return;
+    }
+
+    setState(() {
+      isSearching = true;
+    });
+    var query = MealQuery(tag: selectedTagFilter?.tagName ?? "", searchParam: searchController.text);
+
+    var newMeals = await APIInterface.searchForMeals(query);
+    setState(() {
+      isSearching = false;
+      mealsFromSearch = newMeals;
+    });
+
+  }
+
+
+  Widget buildChip(TagFilter filter) {
+    Color color = filter == selectedTagFilter ? Colors.blue : getColorForTag(filter);
+    return  GestureDetector(onTap: (){ setState(() {
+      if (selectedTagFilter == filter)
+        selectedTagFilter = null;
+      else
+        selectedTagFilter = filter;
+
+      performSearch();
+    });},
+      child: 
+        Chip(
+            labelPadding: EdgeInsets.fromLTRB(13, 3, 13, 3),
+            label: Text(filter.displayName),
+            labelStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+            backgroundColor: color)
+    );
   }
 
   static List<Meal>? featuredMeals;
+  List<Meal>? mealsFromSearch;
+  bool isSearching = false;
 
   void initAsync() async {
     if (featuredMeals == null){
@@ -36,8 +111,11 @@ class _RecipesPageState extends State<RecipesPage> {
     }
   }
 
-  Widget mealCard(String title, String calories, String mealTitle,
-      String ingredient1, String ingredient2) {
+  TagFilter? selectedTagFilter;
+
+
+
+  Widget mealCard(String title, String calories, String mealTitle, String ingredient1, String ingredient2) {
     return 
       Container(
         margin: EdgeInsets.only(bottom: 18),
@@ -107,59 +185,63 @@ class _RecipesPageState extends State<RecipesPage> {
     Navigator.of(context).push(MaterialPageRoute(builder: (context)=> RecipeNew(meal: meal)));    
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget buildMealCard(Meal meal) {
+    return GestureDetector(onTap: (){
+      cardTapped(meal);
+    },
+    child:
+      Column(children: [
+        Container(margin: EdgeInsets.all(10), height: 100, width: 100, 
+          child: FittedBox(
+            fit: BoxFit.cover,
+            clipBehavior: Clip.hardEdge,
+            child:  
+              Expanded(child: 
+                meal.photoPath == null ? Image.asset("images/spices.jpg") : Image.network(meal.photoPath!),               
+              ),
+          ), 
+        ),
+        Text(meal.name == null ? "Unknown" : upperCaseFirstLetter(meal.name!), style: TextStyle(fontWeight: FontWeight.bold),)
+      ])
+    );
+  }
 
-    
+  Widget buildFeatured(){
     List<Widget> featuredMealCards= [];
     if (featuredMeals != null){
       for (var meal in featuredMeals!){
         featuredMealCards.add(
-        GestureDetector(onTap: (){
-        cardTapped(meal);
-      },
-      child:
-          Column(children: [
-            Container(margin: EdgeInsets.all(10), height: 150, width: 150, 
-              child: FittedBox(
-                fit: BoxFit.cover,
-                clipBehavior: Clip.hardEdge,
-                child:  
-                  Expanded(child: 
-                    meal.photoPath == null ? Image.asset("images/spices.jpg") : Image.network(meal.photoPath!),               
-                  ),
-              ), 
-            ),
-            Text(meal.name == null ? "Unknown" : upperCaseFirstLetter(meal.name!), style: TextStyle(fontWeight: FontWeight.bold),)
-          ])
-        )
+          buildMealCard(meal)
         );
       }
     }
 
-
-    return Scaffold(
-      appBar: AppBar(
-        titleSpacing: 25,
-        backgroundColor: MyColors.accentColor,
-        title: const Text('Recipes'),
-      ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            var page = AddRecipe();
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => page),
-            ).then((value) => setState(() {}));
-          },
-          child: const Icon(Icons.add),
-          backgroundColor: MyColors.accentColor),
-      body: Container(
-        margin: EdgeInsets.only(left: 25),
-        child: ListView(
-          physics: BouncingScrollPhysics(),
-          children: <Widget>[
+    return Column(children: [
+      Container(
+                margin: EdgeInsets.only(top: 20),
+                alignment: Alignment.bottomLeft,
+                child: Text('Featured', style: MyStyles.h1Text)),
             Container(
+              alignment: Alignment.centerLeft,
+              child:
+              SingleChildScrollView(scrollDirection: Axis.horizontal, child: 
+                Row(
+                  children: featuredMealCards,
+                ),
+              )
+            ),
+    ],);
+  }
+
+  Widget buildSearchBar(){
+    List<Widget> tagFilterWidgets = [];
+    for (var filter in tagFilters) {
+      tagFilterWidgets.add(buildChip(filter));
+    }
+
+    return Column(
+      children: [
+        Container(
               margin: EdgeInsets.only(top: 25, right: 25, bottom: 20),
               height: 39,
               decoration: BoxDecoration(
@@ -177,6 +259,10 @@ class _RecipesPageState extends State<RecipesPage> {
                     )),
                 TextField(
                     style: MyStyles.bodyText,
+                    controller: searchController,
+                    onSubmitted: (text) {
+                      performSearch();
+                    },
                     decoration: InputDecoration(
                       contentPadding:
                           EdgeInsets.only(left: 40, right: 15, bottom: 8),
@@ -190,48 +276,72 @@ class _RecipesPageState extends State<RecipesPage> {
               alignment: Alignment.bottomLeft,
               child: Wrap(
                 spacing: 8,
-                children: [
-                  buildChip("My Recipes", Colors.blueGrey),
-                  buildChip("Vegan", MyColors.yellow),
-                  buildChip("Keto", MyColors.yellow),
-                  buildChip("Dairy-Free", MyColors.yellow),
-                  buildChip("Glucose-Free", MyColors.yellow),
-                  buildChip("Asian", MyColors.green),
-                  buildChip("American", MyColors.green),
-                  buildChip("Mexican", MyColors.green),
-                ],
+                children: tagFilterWidgets,
               ),
             ),
-            Container(
+      ],
+    );
+  }
+
+  Widget buildSearchResults(){
+    List<Widget> mealCardWidgets = [];
+    if (mealsFromSearch != null){
+      for (var meal in mealsFromSearch!){
+        mealCardWidgets.add(
+          //Container(width: 200, height: 200,
+         // child: 
+          
+          buildMealCard(meal)
+          //)
+        );
+      }
+    }
+
+    return Column(children: [
+      Container(
                 margin: EdgeInsets.only(top: 20),
                 alignment: Alignment.bottomLeft,
-                child: Text('Featured', style: MyStyles.h1Text)),
-            Container(
-              alignment: Alignment.center,
-              child:
-              SingleChildScrollView(scrollDirection: Axis.horizontal, child: 
-                Row(
-                  children: featuredMealCards,
-                ),
-              )
-            ),
-            Container(
-                margin: EdgeInsets.only(top: 20),
-                alignment: Alignment.bottomLeft,
-                child: Text('Recent', style: MyStyles.h1Text)),
-            Container(
-              margin: EdgeInsets.only(right: 25),
-              child: Column(
-                children: [
-                  mealCard("Breakfast", "422", "Frosted Flakes",
-                      "1 cup whole milk", "1 cup frosted flakes"),
-                  mealCard("Lunch", "360", "Sandwich", "2 slices bread",
-                      "1 cup cheese"),
-                  mealCard(
-                      "Dinner", "500", "Steaks", "1 cup steak", "5 lb potato"),
-                ],
+                child: Text('Seach Results', style: MyStyles.h1Text)),
+         // Expanded(child: 
+           // SingleChildScrollView(scrollDirection: Axis.horizontal, child: 
+              Wrap(
+                children: mealCardWidgets,
               ),
-            ),
+           // )
+          //)
+            
+    ],);
+  }
+
+  Widget buildBottom(){
+    if (isSearching){
+      return Text("Searching..", style: TextStyle(fontSize: 20),);
+    }
+
+    if (mealsFromSearch != null){
+      return buildSearchResults();
+    }
+
+    return buildFeatured();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    
+
+    return Scaffold(
+      appBar: AppBar(
+        titleSpacing: 25,
+        backgroundColor: MyColors.accentColor,
+        title: const Text('Recipes'),
+      ),
+      body: Container(
+        margin: EdgeInsets.only(left: 25),
+        child: ListView(
+          physics: BouncingScrollPhysics(),
+          children: <Widget>[
+            buildSearchBar(),
+            buildBottom(),
           ],
         ),
       ),

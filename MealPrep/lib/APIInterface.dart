@@ -58,4 +58,21 @@ class APIInterface {
     return featuredMeals;
   }
 
+  static Future<List<Meal>> searchForMeals(MealQuery query) async {
+    List<Meal> foundMeals = [];
+
+    
+    var asJson1 = jsonEncode(query.toMap());
+    var response = await http.post(Uri.parse('https://10.0.2.2:44314/MealRequest'), body: asJson1, headers: {"Content-Type": "application/json"} );
+    dynamic asJson = jsonDecode(response.body);
+   
+    if (asJson is List<dynamic>){
+      for(var item in asJson){
+        foundMeals.add(Meal.fromMap(item));
+      }
+    }
+
+    return foundMeals;
+  }
+
 }

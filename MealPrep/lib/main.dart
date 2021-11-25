@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:foodplanapp/LoginRegistration/LoginPage.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+import 'LoginRegistration/WelcomePage.dart';
+
 void main() {
   HttpOverrides.global = new MyHttpOverrides();
   runApp(MyApp());
@@ -20,6 +22,20 @@ void main() {
       ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
   }
 }
+
+  class MealQuery{
+    String tag;
+    String searchParam;
+    MealQuery({required this.tag, required this.searchParam});
+
+    Map<String,dynamic> toMap(){
+      return {
+        "tag":tag,
+        "searchParam":searchParam,
+      };
+    }
+
+  }
 
   class Request
   {

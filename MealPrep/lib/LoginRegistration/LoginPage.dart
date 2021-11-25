@@ -203,18 +203,26 @@ class LoginPageState extends State<LoginPage> {
       errorWidget = Container();
     }
 
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: MyColors.accentColor,
         title: const Text('Log in'),
       ),
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
+      body:  SingleChildScrollView(child:
+        
           Column(
             children: [
-              Container(height: 50),
-              Container(height: 10),
+              Container(height: 35),
+              Container(
+                child: Text("Meal Prep'd",
+                    style: TextStyle(
+                      color: MyColors.accentColor,
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                    )),
+              ),
+              Container(height: 35),
               Container(
                 margin: EdgeInsets.fromLTRB(12, 0, 0, 5),
                 alignment: Alignment.bottomLeft,
@@ -277,7 +285,7 @@ class LoginPageState extends State<LoginPage> {
               errorWidget,
             ],
           ),
-        ],
+        
       ),
     );
   }
