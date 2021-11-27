@@ -32,7 +32,7 @@ namespace WebApplication1.Controllers
       {
         sqlQuery = @"SELECT DISTINCT ""Meals"".""Id""
 FROM ""Meals""
-Where name like @seachParam
+Where lower(name) like @seachParam
 limit 20";
       }
       else
@@ -41,14 +41,14 @@ limit 20";
 FROM ""Meals""
 INNER JOIN ""MealTags"" ON ""MealTags"".""MealId"" = ""Meals"".""Id""
 INNER JOIN ""Tags"" ON ""TagId"" = ""Tags"".""Id""
-Where name like @seachParam and
+Where lower(name) like @seachParam and
       ""Tags"".""Name"" = @tagName
 limit 20";
       }
 
       
 
-      query.searchParam = "%" + query.searchParam + "%";
+      query.searchParam = "%" + query.searchParam.ToLower() + "%";
 
       var connString = "Host=127.0.0.1;Username=postgres;Password=Jt680355;Database=mealPrepDB";
       var conn = new NpgsqlConnection(connString);
