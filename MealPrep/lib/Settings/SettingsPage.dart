@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:foodplanapp/CurrentSession.dart';
 import 'package:foodplanapp/LoginRegistration/LoginPage.dart';
+import 'package:foodplanapp/LoginRegistration/WelcomePage.dart';
 import 'package:foodplanapp/MyColors.dart';
 import 'package:foodplanapp/Settings/EditProfile.dart';
 import 'package:foodplanapp/Settings/MyGoalsPage.dart';
@@ -19,7 +20,7 @@ class _SettingsPageState extends State<SettingsPage> {
   void logout() {
     FirebaseAuth.instance.signOut();
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-      return LoginPage();
+      return WelcomePage();
     }), (_) => false);
   }
 
