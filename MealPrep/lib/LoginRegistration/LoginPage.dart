@@ -269,7 +269,7 @@ class LoginPageState extends State<LoginPage> {
                   ),
                   child: Text(
                     "Log in",
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    style: TextStyle(fontSize: 16, color: Colors.white),
                   ),
                 ),
               ),

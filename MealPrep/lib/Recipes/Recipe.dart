@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:foodplanapp/MyColors.dart';
-import 'package:page_indicator/page_indicator.dart';
 
 class Recipe extends StatefulWidget {
   final String recipeTitle;
@@ -64,95 +63,109 @@ class _RecipeState extends State<Recipe> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
         appBar: AppBar(
           backgroundColor: MyColors.accentColor,
           title: Text("Recipe"),
-        ),
-        body: PageIndicatorContainer(
-          align: IndicatorAlign.bottom,
-          length: 3,
-          indicatorSpace: 10.0,
-          indicatorColor: Colors.black12,
-          indicatorSelectorColor: MyColors.accentColor,
-          padding: EdgeInsets.only(bottom: 20),
-          child: PageView(children: [
-            SingleChildScrollView(
-                child: Column(children: [
-              AspectRatio(
-                aspectRatio: 3 / 2,
-                child: Container(
-                    child: FittedBox(
-                  fit: BoxFit.fitWidth,
-                  clipBehavior: Clip.hardEdge,
-                  child: Image.asset("images/backgroundImage.png"),
-                )),
+          bottom: TabBar(
+            tabs: [
+              Tab(
+                text: "Overview",
               ),
-              Container(
-                margin: EdgeInsets.fromLTRB(25, 15, 25, 15),
-                // alignment: Alignment.bottomLeft,
-                child: Column(children: [
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      this.widget.recipeTitle,
-                      style: MyStyles.h1Text,
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                          width: 90,
-                          child: Text(
-                            "Servings:",
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                          )),
-                      Text("1",
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold))
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                          width: 90,
-                          child: Text(
-                            "Cook Time:",
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                          )),
-                      Container(
-                          child: Text("1 Hour",
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold)))
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                          width: 90,
-                          child: Text(
-                            "Calories:",
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                          )),
-                      Container(
-                          child: Text("600",
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold)))
-                    ],
+              Tab(
+                text: "Ingredients",
+              ),
+              Tab(
+                text: "Directions",
+              ),
+            ],
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            SingleChildScrollView(
+              child: Column(
+                children: [
+                  AspectRatio(
+                    aspectRatio: 3 / 2,
+                    child: Container(
+                        child: FittedBox(
+                      fit: BoxFit.fitWidth,
+                      clipBehavior: Clip.hardEdge,
+                      child: Image.asset("images/backgroundImage.png"),
+                    )),
                   ),
                   Container(
-                      margin: EdgeInsets.only(top: 20),
-                      child: Text(
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                        style: MyStyles.bodyText,
-                      ))
-                ]),
-              )
-            ])),
+                    margin: EdgeInsets.fromLTRB(25, 15, 25, 15),
+                    // alignment: Alignment.bottomLeft,
+                    child: Column(children: [
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical: 10),
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          this.widget.recipeTitle,
+                          style: MyStyles.h1Text,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                              width: 90,
+                              child: Text(
+                                "Servings:",
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
+                              )),
+                          Text("1",
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold))
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                              width: 90,
+                              child: Text(
+                                "Cook Time:",
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
+                              )),
+                          Container(
+                              child: Text("1 Hour",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold)))
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                              width: 90,
+                              child: Text(
+                                "Calories:",
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
+                              )),
+                          Container(
+                              child: Text("600",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold)))
+                        ],
+                      ),
+                      Container(
+                          margin: EdgeInsets.only(top: 20),
+                          child: Text(
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                            style: MyStyles.bodyText,
+                          ))
+                    ]),
+                  )
+                ],
+              ),
+            ),
             SingleChildScrollView(
               child: Container(
                 alignment: Alignment.bottomLeft,
@@ -180,7 +193,8 @@ class _RecipeState extends State<Recipe> {
                 ),
               ),
             ),
-            Container(
+            SingleChildScrollView(
+              child: Container(
                 alignment: Alignment.bottomLeft,
                 margin: EdgeInsets.fromLTRB(25, 15, 25, 15),
                 child: Column(
@@ -197,8 +211,12 @@ class _RecipeState extends State<Recipe> {
                     buildDirection(
                         "Spread mayonnaise and ketchup on bun bottoms. Add lettuce, tomato, burger, onion, and salt and pepper to taste. Set bun tops in place.")
                   ],
-                ))
-          ]),
-        ));
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

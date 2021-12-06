@@ -29,7 +29,7 @@ class _RecipesPageState extends State<RecipesPage> {
           borderRadius: BorderRadius.circular(10), color: MyColors.lightGrey),
       child: new InkWell(
         onTap: () {
-          var page = Recipe(recipeTitle: "Classic Hamburger");
+          var page = Recipe(recipeTitle: "Classic Hamburger With Caesar Salad");
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => page),
@@ -89,25 +89,35 @@ class _RecipesPageState extends State<RecipesPage> {
                 child: Image.asset("images/backgroundImage.png"),
               ),
             )),
-        Container(
-            margin: EdgeInsets.fromLTRB(15, 0, 0, 0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                FittedBox(
-                    child: Text(mealTitle,
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xff333333)))),
-                FittedBox(
-                    child:
-                        Text(calories + " Calories", style: MyStyles.bodyText)),
-                Divider(color: Colors.black, thickness: 3),
-                Text(ingredient1, style: MyStyles.bodyText),
-                Text(ingredient2, style: MyStyles.bodyText)
-              ],
-            ))
+        Expanded(
+          child: Container(
+              margin: EdgeInsets.fromLTRB(15, 0, 0, 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                      child: Text(mealTitle,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xff333333)))),
+                  FittedBox(
+                      child: Text(calories + " Calories",
+                          overflow: TextOverflow.ellipsis,
+                          style: MyStyles.bodyText)),
+                  Container(
+                    margin: EdgeInsets.only(right: 10),
+                    child: Divider(color: Colors.grey, thickness: 1),
+                  ),
+                  Text(ingredient1,
+                      overflow: TextOverflow.ellipsis,
+                      style: MyStyles.bodyText),
+                  Text(ingredient2,
+                      overflow: TextOverflow.ellipsis, style: MyStyles.bodyText)
+                ],
+              )),
+        )
       ])),
     );
   }

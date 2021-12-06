@@ -38,6 +38,7 @@ class APITestPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Mobile Food APP API TEST',
+      theme: ThemeData(tabBarTheme: TabBarTheme()),
       home: Scaffold(
           appBar: AppBar(
             title: const Text('API TEST'),

@@ -168,7 +168,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     primary: buttonColor,
                   ),
                   child: Text('Create Account',
-                      style: TextStyle(fontSize: 16, color: Colors.black))),
+                      style: TextStyle(fontSize: 16, color: Colors.white))),
             ),
           ],
         ),

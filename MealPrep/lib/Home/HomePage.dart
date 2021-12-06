@@ -65,21 +65,39 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    FittedBox(
+                    Container(
                         child: Text(title,
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                                 color: Color(0xff333333)))),
-                    FittedBox(
-                        child: Text(calories + " Calories",
-                            style: MyStyles.bodyText)),
-                    Text(mealTitle, style: MyStyles.bodyText),
                     Container(
-                        margin: EdgeInsets.only(right: 10),
-                        child: Divider(color: Colors.black, thickness: 1)),
-                    Text(ingredient1, style: MyStyles.bodyText),
-                    Text(ingredient2, style: MyStyles.bodyText),
+                        child: Text(
+                      calories + " Calories",
+                      style: MyStyles.bodyText,
+                    )),
+                    Container(
+                      child: Text(
+                        mealTitle,
+                        style: MyStyles.bodyText,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(right: 10),
+                      child: Divider(color: Colors.grey, thickness: 1),
+                    ),
+                    Text(
+                      ingredient1,
+                      style: MyStyles.bodyText,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      ingredient2,
+                      style: MyStyles.bodyText,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ],
                 )))
       ])),
@@ -140,8 +158,18 @@ class _HomePageState extends State<HomePage> {
           physics: BouncingScrollPhysics(),
           children: <Widget>[
             Container(
+              margin: EdgeInsets.fromLTRB(25, 25, 0, 0),
+              child: Text(
+                'Hi ' + CurrentSession.currentProfile.username + ",",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: MyColors.grey,
+                ),
+              ),
+            ),
+            Container(
                 alignment: Alignment.bottomLeft,
-                margin: EdgeInsets.fromLTRB(25, 15, 0, 0),
+                margin: EdgeInsets.fromLTRB(25, 5, 0, 0),
                 child: Text('Weekly Overview', style: MyStyles.h1Text)),
             _calendarTimeline,
             Container(

@@ -59,7 +59,7 @@ class _CalendarDayPageState extends State<CalendarDayPage> {
     return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10), color: MyColors.lightGrey),
-      margin: EdgeInsets.fromLTRB(25, 0, 25, 10),
+      margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
       child: Container(
           child: Row(children: [
         Container(
@@ -73,34 +73,54 @@ class _CalendarDayPageState extends State<CalendarDayPage> {
                 child: Image.asset("images/backgroundImage.png"),
               ),
             )),
-        Container(
-            margin: EdgeInsets.all(5),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                FittedBox(
-                    child: Text(title,
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Color(
-                              0xff333333,
-                            )))),
-                FittedBox(
-                    child:
-                        Text(calories + " Calories", style: MyStyles.bodyText)),
-                FittedBox(
-                  child: Text(
-                    mealTitle,
-                    style: MyStyles.bodyText,
+        Expanded(
+            child: Container(
+          margin: EdgeInsets.fromLTRB(15, 10, 0, 10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              FittedBox(
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Color(
+                      0xff333333,
+                    ),
                   ),
                 ),
-                Divider(color: Colors.black, thickness: 3),
-                Text(ingredient1, style: MyStyles.bodyText),
-                Text(ingredient2, style: MyStyles.bodyText)
-              ],
-            ))
+              ),
+              Container(
+                  child: Text(
+                calories + " Calories",
+                style: MyStyles.bodyText,
+                overflow: TextOverflow.ellipsis,
+              )),
+              Container(
+                child: Text(
+                  mealTitle,
+                  overflow: TextOverflow.ellipsis,
+                  style: MyStyles.bodyText,
+                ),
+              ),
+              Container(
+                  margin: EdgeInsets.only(right: 10),
+                  child: Divider(color: Colors.grey, thickness: 1)),
+              Text(
+                ingredient1,
+                style: MyStyles.bodyText,
+                overflow: TextOverflow.ellipsis,
+              ),
+              Text(
+                ingredient2,
+                style: MyStyles.bodyText,
+                overflow: TextOverflow.ellipsis,
+              )
+            ],
+          ),
+        )),
       ])),
     );
   }
@@ -148,8 +168,8 @@ class _CalendarDayPageState extends State<CalendarDayPage> {
         ),
         Expanded(
             child: ListView(physics: BouncingScrollPhysics(), children: [
-          buildCard("Breakfast", "422", "Frosted Flakes", "1 cup whole milk",
-              "1 cup frosted flakes"),
+          buildCard("Breakfast", "422", "Bowl of Frosted Flakes Cereal",
+              "1 cup whole milk", "1 cup frosted flakes"),
           buildCard(
               "Lunch", "360", "Sandwich", "2 slices bread", "1 cup cheese"),
           buildCard("Dinner", "500", "Steaks", "1 cup steak", "5 lb potato"),
