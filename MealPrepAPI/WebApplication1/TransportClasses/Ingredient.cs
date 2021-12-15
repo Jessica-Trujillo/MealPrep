@@ -25,6 +25,9 @@ namespace WebApplication1.Controllers
     {
       id = reader.GetInt32(0);
       Name = reader.GetString(1);
+      calories = reader.GetDouble(2);
+      quantityForCalorie = reader.GetString(3);
+      ExpirationTimeInDays = reader.GetInt32(4);
     }
   }
 }

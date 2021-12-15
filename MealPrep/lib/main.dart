@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:foodplanapp/LoginRegistration/LoginPage.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+import 'LoginRegistration/WelcomePage.dart';
+
 void main() {
   HttpOverrides.global = new MyHttpOverrides();
   runApp(MyApp());
@@ -20,6 +22,20 @@ void main() {
       ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
   }
 }
+
+  class MealQuery{
+    String tag;
+    String searchParam;
+    MealQuery({required this.tag, required this.searchParam});
+
+    Map<String,dynamic> toMap(){
+      return {
+        "tag":tag,
+        "searchParam":searchParam,
+      };
+    }
+
+  }
 
   class Request
   {
@@ -176,13 +192,16 @@ void main() {
         else if (entry.key == "proteinPercent") {
           meal.proteinPercent = double.parse(entry.value.toString());
         }
-        else if (entry.key == "tags") {
+        else if (entry.key == "tags" && entry.value is List<dynamic>) {
           List<String> tagStr = [];
           List<dynamic> tags = entry.value;
           for (var tag in tags){
             tagStr.add(tag.toString());
           }
           meal.tags = tagStr;
+        }
+        else if (entry.key == "photoPath"){
+          meal.photoPath = entry.value.toString();
         }
       }
 
@@ -204,6 +223,7 @@ void main() {
     double? fatPercent;
     double? proteinPercent;
     List<String>? tags;
+    String? photoPath;
 
     // TODO: MealPhotoPath
     // Add Image path property, name this the same as in API
@@ -222,12 +242,18 @@ void main() {
         else if (entry.key == "quantity"){
           ing.quantity = entry.value.toString();
         }
+        else if (entry.key == "ingredient"){
+          ing.ingredient = Ingredient.fromMap(entry.value);
+        }
       }
 
       return ing;
     }
     int? ingredientId;
     String? quantity;
+
+
+    Ingredient? ingredient;
   }
 
   class StoreIngredient
@@ -280,7 +306,7 @@ void main() {
         else if (entry.key == "quantityForCalorie"){
           ing.quantityForCalorie = entry.value.toString();
         }
-        else if (entry.key == "storeIngredients"){
+        else if (entry.key == "storeIngredients" && entry.value is List<dynamic>){
           List<dynamic> list = entry.value;
           List<StoreIngredient> storeIng = [];
           for (var item in list){
@@ -288,7 +314,7 @@ void main() {
           }
           ing.storeIngredients = storeIng;
         }
-        else if (entry.key == "tags"){
+        else if (entry.key == "tags" && entry.value is List<dynamic>){
           List<dynamic> list = entry.value;
           List<String> tags = [];
           for (var item in list){
@@ -337,7 +363,7 @@ class MyAppState extends State<MyApp>{
     await Firebase.initializeApp();
     setState(() {
       isInitialized = true;
-      mainPage = LoginPage();
+      mainPage = WelcomePage();
     });
   }
 

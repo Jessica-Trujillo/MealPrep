@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 
 class MyColors {
-  static Color accentColor = Color(0xffe46060);
-  static Color cardColor = Colors.grey[350]!;
+  static Color cardColor = Colors.grey[300]!;
+  static const Color accentColor = Color(0xffFF6B6B);
+  static const Color green = Colors.green;
+  static const Color yellow = Color(0xfff2b100);
+  static const Color lightGrey = Color(0xfff3f3f3);
+  static const Color grey = Colors.grey;
+  static const Color black = Color(0xff333333);
 }
 
 class MyStyles {
@@ -17,9 +22,9 @@ class MyStyles {
     ),
   );
 
-  static TextStyle bodyText = TextStyle(color: Color(0xff333333), fontSize: 16);
+  static TextStyle bodyText = TextStyle(color: MyColors.black, fontSize: 16);
   static TextStyle h1Text = TextStyle(
-      color: Color(0xff333333), fontSize: 22, fontWeight: FontWeight.bold);
+      color: MyColors.black, fontSize: 22, fontWeight: FontWeight.bold);
 }
 
 class Common {
